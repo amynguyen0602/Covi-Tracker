@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
+import selfReportReducer from './selfReportReducer'
 
 export default combineReducers({
-  tempKey: 'temp val',
+  selfReport: selfReportReducer,
 })

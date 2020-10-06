@@ -1,21 +1,28 @@
-import React, { Component } from 'react'
-import { DatePicker } from 'antd'
+import React from 'react'
+import { DatePicker, Row, Col, Button } from 'antd'
 
 import VisitForm from './VisitForm'
 
-export class SelfReport extends Component {
-  onChange = () => {
-    console.log('onChange triggered!')
+function SelfReport(props) {
+  const handleAdd = () => {
+    console.log('add clicked!!!@!@!@!@!@')
   }
 
-  render() {
-    return (
-      <div>
-        <DatePicker onChange={this.onChange} />
-        <VisitForm />
-      </div>
-    )
+  const createVisitForm = () => {
+    // get state from redux store and map -> return
   }
+
+  return (
+    <div>
+      <Row>
+        <Col span={2}></Col>
+        <Col span={8}>
+          Confirmed Date: <DatePicker />
+        </Col>
+        <Col span={2}></Col>
+      </Row>
+    </div>
+  )
 }
 
 export default SelfReport

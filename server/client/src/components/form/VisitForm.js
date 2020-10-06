@@ -3,7 +3,7 @@ import { Card, DatePicker, TimePicker, Input } from 'antd'
 
 function VisitForm(props) {
   return (
-    <Card style={{ width: 750 }}>
+    <Card>
       <DatePicker />
       <TimePicker />
       <Input placeholder="Place or Address" />

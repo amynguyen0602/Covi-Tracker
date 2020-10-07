@@ -1,7 +1,46 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import * as actions from '../../redux/actions'
 import { Card } from 'antd';
+import StatisticCard from './StatisticCard'
 
 export class CanadaStatistics extends Component {
+	state = {
+		statistic: []
+	}
+	async componentDidMount() {
+		await this.props.fetchCanStatistic()
+		const statistic  = this.props.statistic.data[0]
+		const statisticArray = [
+			{
+				title: 'Confirmed',
+				total: statistic.total_cases,
+				change: statistic.change_cases
+			},
+			{
+				title: 'Active',
+				total: statistic.total_cases - statistic.total_recoveries - statistic.total_fatalities,
+				change: statistic.change_cases - statistic.change_recoveries - statistic.change_fatalities
+			},
+			{
+				title: 'Recovered',
+				total: statistic.total_recoveries,
+				change: statistic.change_recoveries
+			},
+			{
+				title: 'Deaths',
+				total: statistic.total_fatalities,
+				change: statistic.change_fatalities
+			}
+		]
+		this.setState({statistic: statisticArray})
+	}
+
+	renderStatistic = () => {
+		return this.state.statistic.map(stat => {
+			return <StatisticCard data = {stat} />
+		})
+	}
 	render() {
 		return (
 			<Card
@@ -16,10 +55,17 @@ export class CanadaStatistics extends Component {
 								fontWeight: 'bold',
 							}}> Canada </span>
 					</div>
-				}
-			></Card>
+				}> 
+				{this.renderStatistic()}
+			</Card>
 		);
 	}
 }
 
-export default CanadaStatistics;
+function mapStateToProps({ statistic } ) {
+    return {
+		statistic
+    }
+}
+
+export default connect(mapStateToProps, actions) (CanadaStatistics);

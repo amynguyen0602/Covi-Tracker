@@ -38,7 +38,7 @@ export class CanadaStatistics extends Component {
 
 	renderStatistic = () => {
 		return this.state.statistic.map(stat => {
-			return <StatisticCard data = {stat} />
+			return <StatisticCard key = {stat.title} data = {stat} />
 		})
 	}
 	render() {

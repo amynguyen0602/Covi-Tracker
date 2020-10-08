@@ -51,13 +51,13 @@ export class ProvinceStatistics extends Component {
 	
 	renderStatistic = () => {
 		return this.state.statistic.map(stat => {
-			return <StatisticCard data = {stat} />
+			return <StatisticCard key = {stat.title} data = {stat} />
 		})
 	}
 
     getProvinceSelection = () => {
         return this.state.province.map(data => {
-            return <Select.Option value={data.code}>{data.name}</Select.Option>
+            return <Select.Option key = {data.code} value={data.code}>{data.name}</Select.Option>
         })
 	}
 	onChange = async (val) => {

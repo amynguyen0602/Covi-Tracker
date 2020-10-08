@@ -8,8 +8,8 @@ function StatisticCard({data}) {
 			value={data.total}
 			suffix={data.change > 0 ? 
                 <div style={{fontSize: '11px', color: '#3f8600'}}><ArrowUpOutlined /> {data.change}</div> :
-                data.change > 0 ? 
-				<div style={{fontSize: '11px', color: '#cf1322'}}><ArrowDownOutlined />  {data.change}</div> : null}
+                data.change < 0 ? 
+				<div style={{fontSize: '11px', color: '#cf1322'}}><ArrowDownOutlined />  {-data.change}</div> : null}
           	/>
     )
 }

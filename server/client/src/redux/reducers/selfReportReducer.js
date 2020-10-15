@@ -1,9 +1,11 @@
 export default (state = [], action) => {
-  console.log(`previous state ${state}`);
-  console.log(`ACTION ${action}`);
   switch (action.type) {
     case 'ADD_VISIT':
+      console.log(action.payload)
       return [...state, action.payload]
+    case 'GET_VISITS':
+      console.log(action.payload)
+      return { visits: action.payload }
     default:
       return state
   }

@@ -10,12 +10,14 @@ import * as serviceWorker from './serviceWorker'
 import reducers from './redux/reducers'
 
 //hookup middleware to redux store
-const store = createStore(reducers, applyMiddleware(thunk))
+const initialState = {}
+const store = createStore(reducers, initialState, applyMiddleware(thunk))
 
 ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>,
+
   document.getElementById('root')
 )
 

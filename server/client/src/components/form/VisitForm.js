@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Card, DatePicker, TimePicker, Input, Button } from 'antd'
 import moment from 'moment'
-import { addVisit } from '../../redux/actions/selfReportActions'
+import { addVisit, getVisits } from '../../redux/actions/visitsActions'
 
-const VisitForm = ({ addVisit }) => {
+const VisitForm = ({ addVisit, getVisits }) => {
   const [date, setDate] = useState()
   const [time, setTime] = useState()
   const [place, setPlace] = useState()
@@ -15,6 +15,7 @@ const VisitForm = ({ addVisit }) => {
       time: time,
       place: place,
     })
+    console.log(getVisits())
   }
 
   return (
@@ -48,4 +49,4 @@ const mapStateToProps = (state) => {
   return { visits: state.visits }
 }
 
-export default connect(mapStateToProps, { addVisit })(VisitForm)
+export default connect(mapStateToProps, { addVisit, getVisits })(VisitForm)

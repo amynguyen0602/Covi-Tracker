@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { DatePicker, Row, Col } from 'antd'
-import { getVisits } from '../../redux/actions/selfReportActions'
+import { getVisits } from '../../redux/actions/visitsActions'
 import VisitForm from './VisitForm'
 
 function SelfReport(props) {

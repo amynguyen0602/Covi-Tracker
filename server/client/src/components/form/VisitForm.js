@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Card, DatePicker, TimePicker, Input, Button } from 'antd'
+import { CloseOutlined } from '@ant-design/icons'
 import moment from 'moment'
 import { addVisit, getVisits } from '../../redux/actions/visitsActions'
 
-const VisitForm = ({ addVisit, getVisits }) => {
-  const [date, setDate] = useState()
-  const [time, setTime] = useState()
-  const [place, setPlace] = useState()
+const VisitForm = ({ addVisit, getVisits, defaultData }) => {
+  console.log(defaultData)
+  const [date, setDate] = useState(defaultData && defaultData.date ? defaultData.date : null)
+  const [time, setTime] = useState(defaultData && defaultData.time ? defaultData.time : null)
+  const [place, setPlace] = useState(defaultData && defaultData.place ? defaultData.place : null)
 
   const handleAdd = () => {
     addVisit({
@@ -15,32 +17,48 @@ const VisitForm = ({ addVisit, getVisits }) => {
       time: time,
       place: place,
     })
-    console.log(getVisits())
+
+    setDate(null)
+    setTime(null)
+    setPlace(null)
   }
+
+  const handleDelete = () => {}
 
   return (
     <Card>
+      <Button onClick={handleDelete}>
+        <CloseOutlined />
+      </Button>
       <DatePicker
+        disabled={defaultData}
+        value={date}
         onChange={(selectedDate, dateString) => {
           // returns a moment
           setDate(selectedDate)
         }}
       />
       <TimePicker
+        disabled={defaultData}
+        value={time}
         onChange={(selectedTime, timeString) => {
           // returns a moment
           setTime(selectedTime)
         }}
       />
       <Input
+        disabled={defaultData}
+        value={place}
         placeholder="Place or Address"
         onChange={(e) => {
           setPlace(e.target.value)
         }}
       />
-      <Button type="link" onClick={handleAdd}>
-        Add
-      </Button>
+      {!defaultData && (
+        <Button type="link" onClick={handleAdd}>
+          Add
+        </Button>
+      )}
     </Card>
   )
 }

@@ -1,12 +1,11 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { DatePicker, Row, Col } from 'antd'
 import { getVisits } from '../../redux/actions/visitsActions'
 import VisitForm from './VisitForm'
 
 function SelfReport(props) {
-  const handleAdd = () => {}
-  console.log(props.visits)
+  const visits = useSelector((state) => state.selfReport.visits)
 
   return (
     <div>
@@ -22,6 +21,9 @@ function SelfReport(props) {
         <Col span={2}></Col>
         <Col span={8}>
           <VisitForm />
+          {visits.map((visitData) => {
+            return <VisitForm defaultData={visitData} />
+          })}
         </Col>
         <Col span={2}></Col>
       </Row>
@@ -30,7 +32,7 @@ function SelfReport(props) {
 }
 
 const mapStateToProps = (state) => {
-  return { visits: state.visits }
+  return { visits: state.selfReport.visits }
 }
 
 export default connect(mapStateToProps, { getVisits })(SelfReport)

@@ -10,22 +10,22 @@ function SelfReport(props) {
   return (
     <div>
       <Row>
-        <Col span={2}></Col>
+        <Col span={8}></Col>
         <Col span={8}>
           Confirmed Date: <DatePicker />
         </Col>
-        <Col span={2}></Col>
+        <Col span={8}></Col>
       </Row>
 
       <Row>
-        <Col span={2}></Col>
+        <Col span={8}></Col>
         <Col span={8}>
           <VisitForm />
           {visits.map((visitData) => {
             return <VisitForm defaultData={visitData} />
           })}
         </Col>
-        <Col span={2}></Col>
+        <Col span={8}></Col>
       </Row>
     </div>
   )

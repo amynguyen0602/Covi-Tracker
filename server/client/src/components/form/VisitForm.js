@@ -3,10 +3,9 @@ import { connect } from 'react-redux'
 import { Form, DatePicker, TimePicker, Input, Button, Row, Col, Space } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import moment from 'moment'
-import { addVisit, getVisits } from '../../redux/actions/visitsActions'
+import { addVisit, getVisits, removeVisit } from '../../redux/actions/visitsActions'
 
-const VisitForm = ({ addVisit, getVisits, defaultData }) => {
-  console.log(defaultData)
+const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
   const [date, setDate] = useState(defaultData && defaultData.date ? defaultData.date : null)
   const [time, setTime] = useState(defaultData && defaultData.time ? defaultData.time : null)
   const [place, setPlace] = useState(defaultData && defaultData.place ? defaultData.place : null)
@@ -15,6 +14,9 @@ const VisitForm = ({ addVisit, getVisits, defaultData }) => {
   const [timeValidateMessage, setTimeValidateMessage] = useState('')
   const [placeValidateMessage, setPlaceValidateMessage] = useState('')
 
+  function getVisitKey() {
+    return date.format('YYYYMMDD') + time.format('HHMM')
+  }
   const handleAdd = () => {
     if (!date) {
       setDateValidateMessage('Please pick a date')
@@ -30,10 +32,13 @@ const VisitForm = ({ addVisit, getVisits, defaultData }) => {
 
     if (date && time && place) {
       addVisit({
+        key: getVisitKey(),
         date: date,
         time: time,
         place: place,
       })
+
+      console.log(getVisits())
 
       setDate(null)
       setTime(null)
@@ -45,7 +50,8 @@ const VisitForm = ({ addVisit, getVisits, defaultData }) => {
   }
 
   const handleDelete = () => {
-    console.log('delete clicked')
+    removeVisit(getVisitKey())
+    console.log(getVisitKey())
   }
 
   return (
@@ -130,4 +136,4 @@ const mapStateToProps = (state) => {
   return { visits: state.visits }
 }
 
-export default connect(mapStateToProps, { addVisit, getVisits })(VisitForm)
+export default connect(mapStateToProps, { addVisit, getVisits, removeVisit })(VisitForm)

@@ -9,6 +9,11 @@ export default function (state = initialState, action) {
         ...state,
         visits: [...state.visits, action.payload],
       }
+    case 'REMOVE_VISIT':
+      return {
+        ...state,
+        visits: state.visits.filter((visit) => visit.key !== action.payload),
+      }
     default:
       return state
   }

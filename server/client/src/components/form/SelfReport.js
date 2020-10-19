@@ -22,7 +22,7 @@ function SelfReport(props) {
         <Col span={8}>
           <VisitForm />
           {visits.map((visitData) => {
-            return <VisitForm defaultData={visitData} />
+            return <VisitForm key={visitData.key} defaultData={visitData} />
           })}
         </Col>
         <Col span={8}></Col>

@@ -38,6 +38,9 @@ const VisitForm = ({ addVisit, getVisits, defaultData }) => {
       setDate(null)
       setTime(null)
       setPlace(null)
+      setDateValidateMessage('')
+      setTimeValidateMessage('')
+      setPlaceValidateMessage('')
     }
   }
 

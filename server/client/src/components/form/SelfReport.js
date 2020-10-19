@@ -9,7 +9,7 @@ function SelfReport(props) {
 
   return (
     <div>
-      <Row>
+      <Row style={{ margin: '20px 0px' }}>
         <Col span={8}></Col>
         <Col span={8}>
           Confirmed Date: <DatePicker />

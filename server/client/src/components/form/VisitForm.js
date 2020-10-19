@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Card, DatePicker, TimePicker, Input, Button, Row, Col, Space } from 'antd'
+import { Form, DatePicker, TimePicker, Input, Button, Row, Col, Space } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import moment from 'moment'
 import { addVisit, getVisits } from '../../redux/actions/visitsActions'
@@ -11,22 +11,42 @@ const VisitForm = ({ addVisit, getVisits, defaultData }) => {
   const [time, setTime] = useState(defaultData && defaultData.time ? defaultData.time : null)
   const [place, setPlace] = useState(defaultData && defaultData.place ? defaultData.place : null)
 
-  const handleAdd = () => {
-    addVisit({
-      date: date,
-      time: time,
-      place: place,
-    })
+  const [dateValidateMessage, setDateValidateMessage] = useState('')
+  const [timeValidateMessage, setTimeValidateMessage] = useState('')
+  const [placeValidateMessage, setPlaceValidateMessage] = useState('')
 
-    setDate(null)
-    setTime(null)
-    setPlace(null)
+  const handleAdd = () => {
+    if (!date) {
+      setDateValidateMessage('Please pick a date')
+    }
+
+    if (!time) {
+      setTimeValidateMessage('Please pick a time')
+    }
+
+    if (!place) {
+      setPlaceValidateMessage('Please input a place')
+    }
+
+    if (date && time && place) {
+      addVisit({
+        date: date,
+        time: time,
+        place: place,
+      })
+
+      setDate(null)
+      setTime(null)
+      setPlace(null)
+    }
   }
 
-  const handleDelete = () => {}
+  const handleDelete = () => {
+    console.log('delete clicked')
+  }
 
   return (
-    <div style={{ border: '1px solid #f0f0f0', padding: '5px 20px 10px 30px', borderRadius: '2px' }}>
+    <div style={{ border: '1px solid #f0f0f0', padding: '5px 20px 10px 30px', borderRadius: '2px', margin: '10px' }}>
       <Row>
         <Col span={22}></Col>
         <Col span={2}>
@@ -44,37 +64,46 @@ const VisitForm = ({ addVisit, getVisits, defaultData }) => {
         <Col span={20}>
           <Row>
             <Col span={12} style={{ padding: '3px' }}>
-              <DatePicker
-                style={{ width: '100%' }}
-                disabled={defaultData}
-                value={date}
-                onChange={(selectedDate, dateString) => {
-                  // returns a moment
-                  setDate(selectedDate)
-                }}
-              />
+              <Row>
+                <DatePicker
+                  style={{ width: '100%' }}
+                  disabled={defaultData}
+                  value={date}
+                  onChange={(selectedDate, dateString) => {
+                    // returns a moment
+                    setDate(selectedDate)
+                  }}
+                />
+              </Row>
+              <Row>{!date && <div>{dateValidateMessage}</div>}</Row>
             </Col>
             <Col span={12} style={{ padding: '3px' }}>
-              <TimePicker
-                style={{ width: '100%' }}
-                disabled={defaultData}
-                value={time}
-                onChange={(selectedTime, timeString) => {
-                  // returns a moment
-                  setTime(selectedTime)
-                }}
-              />
+              <Row>
+                <TimePicker
+                  style={{ width: '100%' }}
+                  disabled={defaultData}
+                  value={time}
+                  onChange={(selectedTime, timeString) => {
+                    // returns a moment
+                    setTime(selectedTime)
+                  }}
+                />
+              </Row>
+              <Row>{!time && <div>{timeValidateMessage}</div>}</Row>
             </Col>
           </Row>
           <Row style={{ padding: '3px' }}>
-            <Input
-              disabled={defaultData}
-              value={place}
-              placeholder="Place or Address"
-              onChange={(e) => {
-                setPlace(e.target.value)
-              }}
-            />
+            <Row>
+              <Input
+                disabled={defaultData}
+                value={place}
+                placeholder="Place or Address"
+                onChange={(e) => {
+                  setPlace(e.target.value)
+                }}
+              />
+            </Row>
+            <Row>{!place && <div>{placeValidateMessage}</div>}</Row>
           </Row>
         </Col>
         <Col span={4}>

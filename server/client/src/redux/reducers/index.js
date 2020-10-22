@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
+import statisticReducer from './statisticReducer'
 
 export default combineReducers({
-  tempKey: 'temp val',
+  statistic: statisticReducer
 })

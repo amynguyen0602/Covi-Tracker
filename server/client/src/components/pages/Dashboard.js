@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux'
+import * as actions from '../../redux/actions'
 import { Row, Col, Divider } from 'antd';
 import { Timeline } from 'antd';
 import TimelineItem from '../reportcase/TimelineItem';
@@ -44,7 +46,7 @@ const events = [
 	},
 ];
 
-class Landing extends React.Component {
+class Dashboard extends React.Component {
 	timelineEvent = (events) => {
 		return events.map((event) => {
 			return (
@@ -61,7 +63,7 @@ class Landing extends React.Component {
 					<Col xs={24} sm={24} md={18} lg={18} xl={18}>
 						<div style={{margin: '20px 10px 20px 10px',
 								padding: '50px',
-								boxShadow: '1px 1px 10px 2px #F0F0F0',}}>
+								boxShadow: '1px 1px 10px 2px #F0F0F0', minHeight: '774px'}}>
 							<Timeline mode="left">{this.timelineEvent(events)}</Timeline>
 						</div>
 					</Col>
@@ -76,4 +78,4 @@ class Landing extends React.Component {
 	}
 }
 
-export default Landing;
+export default connect(null, actions) (Dashboard);

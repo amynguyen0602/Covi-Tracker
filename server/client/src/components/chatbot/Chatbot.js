@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import * as actions from '../../redux/actions'
+import { connect } from 'react-redux'
 import { Card, Input } from 'antd';
 import { HeartFilled, SendOutlined } from '@ant-design/icons'
-import axios from 'axios/index'
 import Message from './Message'
 import styles from '../../styles/styles'
 
@@ -26,9 +27,9 @@ export class Chatbot extends Component {
 		}
 
 		this.setState({ messages: [...this.state.messages, says] })
-		const res = await axios.post('/api/bot_text', { text })
+		await this.props.send_bot_text(text)
 
-		_.forEach(res.data.fulfillmentMessages, (msg) => {
+		_.forEach(this.props.chatbot.fulfillmentMessages, (msg) => {
 			says = {
 				speaks: 'bot',
 				msg: msg,
@@ -38,9 +39,9 @@ export class Chatbot extends Component {
 	}
 
 	async bot_event(event) {
-		const res = await axios.post('/api/bot_event', { event })
+		await this.props.send_bot_event(event)
 
-		_.forEach(res.data.fulfillmentMessages, (msg) => {
+		_.forEach(this.props.chatbot.fulfillmentMessages, (msg) => {
 			let says = {
 				speaks: 'bot',
 				msg: msg,
@@ -107,4 +108,10 @@ export class Chatbot extends Component {
 	}
 }
 
-export default Chatbot
+function mapStateToProps({ chatbot } ) {
+    return {
+		chatbot
+    }
+}
+
+export default connect(mapStateToProps, actions) (Chatbot)

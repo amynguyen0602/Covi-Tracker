@@ -2,8 +2,14 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Form, DatePicker, TimePicker, Input, Button, Row, Col, Space } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
-import moment from 'moment'
+import PlacesAutocomplete from './PlacesAutocomplete'
 import { addVisit, getVisits, removeVisit } from '../../redux/actions/visitsActions'
+
+const validationWarning = {
+  fontSize: 12,
+  color: 'red',
+  paddingLeft: 2,
+}
 
 const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
   const [date, setDate] = useState(defaultData && defaultData.date ? defaultData.date : null)
@@ -84,7 +90,7 @@ const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
                   }}
                 />
               </Row>
-              <Row>{!date && <div>{dateValidateMessage}</div>}</Row>
+              <Row>{!date && <div style={validationWarning}>{dateValidateMessage}</div>}</Row>
             </Col>
             <Col span={12} style={{ padding: '3px' }}>
               <Row>
@@ -98,21 +104,26 @@ const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
                   }}
                 />
               </Row>
-              <Row>{!time && <div>{timeValidateMessage}</div>}</Row>
+              <Row>{!time && <div style={validationWarning}>{timeValidateMessage}</div>}</Row>
             </Col>
           </Row>
+
           <Row style={{ padding: '3px' }}>
-            <Row>
-              <Input
-                disabled={defaultData}
-                value={place}
-                placeholder="Place or Address"
-                onChange={(e) => {
-                  setPlace(e.target.value)
-                }}
-              />
-            </Row>
-            <Row>{!place && <div>{placeValidateMessage}</div>}</Row>
+            <Col span={24}>
+              <Row>
+                <PlacesAutocomplete
+                  defaultData={defaultData ? defaultData : ''}
+                  value={place}
+                  onChange={(place) => {
+                    if (place) {
+                      setPlaceValidateMessage('')
+                    }
+                    setPlace(place)
+                  }}
+                />
+              </Row>
+              <Row>{!place && <div style={validationWarning}>{placeValidateMessage}</div>}</Row>
+            </Col>
           </Row>
         </Col>
         <Col span={4}>

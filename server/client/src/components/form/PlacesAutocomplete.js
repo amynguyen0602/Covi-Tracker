@@ -4,7 +4,7 @@ import { Input, List } from 'antd'
 
 // import useOnclickOutside from 'react-cool-onclickoutside';
 
-const PlacesAutocomplete = ({ onChange, defaultData }) => {
+const PlacesAutocomplete = ({ onChange, defaultData, place }) => {
   const {
     ready,
     value,
@@ -27,15 +27,12 @@ const PlacesAutocomplete = ({ onChange, defaultData }) => {
   const handleInput = (e) => {
     // Update the keyword of the input element
     setValue(e.target.value)
-    onChange(e.target.value)
   }
 
   const handleSelect = ({ description }) => () => {
     // When user selects a place, we can replace the keyword without request data from API
     // by setting the second parameter as "false"
     setValue(description, false)
-    clearSuggestions()
-
     // Get latitude and longitude via utility functions
     getGeocode({ address: description })
       .then((results) => getLatLng(results[0]))
@@ -45,6 +42,7 @@ const PlacesAutocomplete = ({ onChange, defaultData }) => {
       .catch((error) => {
         console.log('😱 Error: ', error)
       })
+    clearSuggestions()
   }
 
   const renderSuggestions = () =>
@@ -65,10 +63,9 @@ const PlacesAutocomplete = ({ onChange, defaultData }) => {
     <div style={{ width: '100%' }}>
       {console.log(defaultData)}
       <Input
-        disabled={defaultData}
-        value={value}
+        disabled={!ready || defaultData?.place}
+        value={place}
         onChange={handleInput}
-        disabled={!ready}
         placeholder="Place or Address"
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}

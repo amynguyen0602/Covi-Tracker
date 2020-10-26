@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Form, DatePicker, TimePicker, Input, Button, Row, Col, Space } from 'antd'
+import { Form, DatePicker, TimePicker, Input, Button, Row, Col, List } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
-import PlacesAutocomplete from './PlacesAutocomplete'
+import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete'
 import { addVisit, getVisits, removeVisit } from '../../redux/actions/visitsActions'
 
 const validationWarning = {
@@ -10,11 +10,12 @@ const validationWarning = {
   color: 'red',
   paddingLeft: 2,
 }
+let latitude = 0
+let longitude = 0
 
 const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
   const [date, setDate] = useState(defaultData && defaultData.date ? defaultData.date : null)
   const [time, setTime] = useState(defaultData && defaultData.time ? defaultData.time : null)
-  const [place, setPlace] = useState(defaultData && defaultData.place ? defaultData.place : null)
 
   const [dateValidateMessage, setDateValidateMessage] = useState('')
   const [timeValidateMessage, setTimeValidateMessage] = useState('')
@@ -23,6 +24,7 @@ const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
   function getVisitKey() {
     return date.format('YYYYMMDD') + time.format('HHMM')
   }
+
   const handleAdd = () => {
     if (!date) {
       setDateValidateMessage('Please pick a date')
@@ -32,23 +34,24 @@ const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
       setTimeValidateMessage('Please pick a time')
     }
 
-    if (!place) {
+    if (!value) {
       setPlaceValidateMessage('Please input a place')
     }
-
-    if (date && time && place) {
+    if (date && time && value) {
       addVisit({
         key: getVisitKey(),
         date: date,
         time: time,
-        place: place,
+        place: value,
+        lat: latitude,
+        lng: longitude,
       })
 
       console.log(getVisits())
 
       setDate(null)
       setTime(null)
-      setPlace(null)
+      setValue(null)
       setDateValidateMessage('')
       setTimeValidateMessage('')
       setPlaceValidateMessage('')
@@ -57,8 +60,66 @@ const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
 
   const handleDelete = () => {
     removeVisit(getVisitKey())
-    console.log(getVisitKey())
   }
+
+  /* ===================== PlacesAutoComplete ======================== */
+  const {
+    ready,
+    value,
+    suggestions: { status, data },
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    requestOptions: {
+      /* Define search scope here */
+      componentRestrictions: { country: ['ca'] },
+    },
+    debounce: 300,
+  })
+
+  useEffect(() => {
+    setValue(defaultData && defaultData.place ? defaultData.place : null)
+  }, [defaultData])
+
+  const handleInput = (e) => {
+    // Update the keyword of the input element
+    if (e.target.value) {
+      setPlaceValidateMessage('')
+    }
+    setValue(e.target.value)
+  }
+
+  const handleSelect = ({ description }) => () => {
+    // When user selects a place, we can replace the keyword without request data from API
+    // by setting the second parameter as "false"
+    setValue(description, false)
+    // Get latitude and longitude via utility functions
+    getGeocode({ address: description })
+      .then((results) => getLatLng(results[0]))
+      .then(({ lat, lng }) => {
+        console.log('📍 Coordinates: ', { lat, lng })
+        latitude = lat
+        longitude = lng
+      })
+      .catch((error) => {
+        console.log('😱 Error: ', error)
+      })
+    clearSuggestions()
+  }
+
+  const renderSuggestions = () =>
+    data.map((suggestion) => {
+      const {
+        place_id,
+        structured_formatting: { main_text, secondary_text },
+      } = suggestion
+      return (
+        <List.Item key={place_id} onClick={handleSelect(suggestion)}>
+          <strong>{main_text}</strong> <small>{secondary_text}</small>
+        </List.Item>
+      )
+    })
+  /* ==================== End of AutoComplete ========================== */
 
   return (
     <div style={{ border: '1px solid #f0f0f0', padding: '5px 20px 10px 30px', borderRadius: '2px', margin: '10px' }}>
@@ -111,18 +172,16 @@ const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
           <Row style={{ padding: '3px' }}>
             <Col span={24}>
               <Row>
-                <PlacesAutocomplete
-                  defaultData={defaultData ? defaultData : ''}
-                  value={place}
-                  onChange={(place) => {
-                    if (place) {
-                      setPlaceValidateMessage('')
-                    }
-                    setPlace(place)
-                  }}
+                <Input
+                  style={{ width: '100%' }}
+                  disabled={!ready || defaultData}
+                  value={value}
+                  onChange={handleInput}
+                  placeholder="Place or Address"
                 />
+                {status === 'OK' && !defaultData && <ul>{renderSuggestions()}</ul>}
               </Row>
-              <Row>{!place && <div style={validationWarning}>{placeValidateMessage}</div>}</Row>
+              <Row>{!value && <div style={validationWarning}>{placeValidateMessage}</div>}</Row>
             </Col>
           </Row>
         </Col>

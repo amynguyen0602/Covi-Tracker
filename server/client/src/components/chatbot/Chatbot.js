@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import * as actions from '../../redux/actions'
 import { connect } from 'react-redux'
+import Cookies from 'universal-cookie'
+import { v4 as uuid } from 'uuid'
 import { Card, Input } from 'antd';
 import { HeartFilled, SendOutlined } from '@ant-design/icons'
 import Message from './Message'
@@ -9,12 +11,19 @@ import styles from '../../styles/styles'
 
 const { Search } = Input
 
+const cookies = new Cookies()
+
 export class Chatbot extends Component {
 	messageEnd;
-	state = {
-		messages: [],
-		userInput: '',
-	};
+	constructor() {
+		super()
+		this.state = {
+			messages: [],
+			userInput: '',
+		};
+		if (cookies.get('userID') === undefined)
+			cookies.set('userID', uuid(), { path: '/' })
+	}
 
 	async bot_text(text) {
 		let says = {
@@ -27,7 +36,8 @@ export class Chatbot extends Component {
 		}
 
 		this.setState({ messages: [...this.state.messages, says] })
-		await this.props.send_bot_text(text)
+		const userID = cookies.get('userID')
+		await this.props.send_bot_text({ text, userID })
 
 		_.forEach(this.props.chatbot.fulfillmentMessages, (msg) => {
 			says = {
@@ -39,7 +49,8 @@ export class Chatbot extends Component {
 	}
 
 	async bot_event(event) {
-		await this.props.send_bot_event(event)
+		const userID = cookies.get('userID')
+		await this.props.send_bot_event({ event, userID })
 
 		_.forEach(this.props.chatbot.fulfillmentMessages, (msg) => {
 			let says = {

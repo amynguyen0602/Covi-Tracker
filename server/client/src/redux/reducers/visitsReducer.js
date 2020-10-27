@@ -20,6 +20,8 @@ export default function (state = initialState, action) {
         ...state,
         confirmedDate: action.payload,
       }
+    case 'RESET_ON_SELF_REPORT_SUBMIT':
+      return action.payload
     default:
       return state
   }

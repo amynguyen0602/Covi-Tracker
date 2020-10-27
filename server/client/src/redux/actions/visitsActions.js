@@ -25,3 +25,13 @@ export const addConfirmedDate = (confirmedDate) => (dispatch) => {
     payload: confirmedDate,
   })
 }
+
+export const resetOnSelfReportSubmit = () => (dispatch) => {
+  dispatch({
+    type: 'RESET_ON_SELF_REPORT_SUBMIT',
+    payload: {
+      visits: [],
+      confirmedDate: null,
+    },
+  })
+}

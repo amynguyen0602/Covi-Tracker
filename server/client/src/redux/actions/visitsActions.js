@@ -18,3 +18,10 @@ export const removeVisit = (visitKey) => (dispatch) => {
     payload: visitKey,
   })
 }
+
+export const addConfirmedDate = (confirmedDate) => (dispatch) => {
+  dispatch({
+    type: 'ADD_CONFIRMED_DATE',
+    payload: confirmedDate,
+  })
+}

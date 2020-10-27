@@ -1,5 +1,6 @@
 const initialState = {
   visits: [],
+  confirmedDate: null,
 }
 
 export default function (state = initialState, action) {
@@ -13,6 +14,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         visits: state.visits.filter((visit) => visit.key !== action.payload),
+      }
+    case 'ADD_CONFIRMED_DATE':
+      return {
+        ...state,
+        confirmedDate: action.payload,
       }
     default:
       return state

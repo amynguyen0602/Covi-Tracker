@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { DatePicker, Row, Col, Button } from 'antd'
-import { getVisits } from '../../redux/actions/visitsActions'
+import { getVisits, addConfirmedDate } from '../../redux/actions/visitsActions'
+import store from '../../redux/store'
 import VisitForm from './VisitForm'
 
 const validationWarning = {
@@ -10,7 +11,7 @@ const validationWarning = {
   paddingLeft: 2,
 }
 
-function SelfReport(props) {
+function SelfReport({ addConfirmedDate }) {
   const visits = useSelector((state) => state.selfReport.visits)
   const [confirmedDate, setConfirmedDate] = useState()
   const [confirmedDateValidateMessage, setConfirmedDateValidateMessage] = useState('')
@@ -26,7 +27,11 @@ function SelfReport(props) {
       setVisitValidateMessage('Please add at least one visit details')
     }
 
+    // submit it
     if (confirmedDate && visits.length > 0) {
+      console.log(confirmedDate)
+      addConfirmedDate(confirmedDate)
+      console.log(store.getState())
       setConfirmedDateValidateMessage('')
       setVisitValidateMessage('')
     }
@@ -79,4 +84,4 @@ const mapStateToProps = (state) => {
   return { visits: state.selfReport.visits }
 }
 
-export default connect(mapStateToProps, { getVisits })(SelfReport)
+export default connect(mapStateToProps, { getVisits, addConfirmedDate })(SelfReport)

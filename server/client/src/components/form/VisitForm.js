@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Form, DatePicker, TimePicker, Input, Button, Row, Col, List } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete'
+import useOnclickOutside from 'react-cool-onclickoutside'
 import { addVisit, getVisits, removeVisit } from '../../redux/actions/visitsActions'
 
 const validationWarning = {
@@ -16,7 +17,7 @@ let longitude = 0
 const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
   const [date, setDate] = useState(defaultData && defaultData.date ? defaultData.date : null)
   const [time, setTime] = useState(defaultData && defaultData.time ? defaultData.time : null)
-
+  const [selectedPlace, setSelectedPlace] = useState()
   const [dateValidateMessage, setDateValidateMessage] = useState('')
   const [timeValidateMessage, setTimeValidateMessage] = useState('')
   const [placeValidateMessage, setPlaceValidateMessage] = useState('')
@@ -107,6 +108,13 @@ const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
     clearSuggestions()
   }
 
+  const ref = useOnclickOutside(() => {
+    // When user clicks outside of the component, we can dismiss
+    // the searched suggestions by calling this method
+    clearSuggestions()
+    setValue('')
+  })
+
   const renderSuggestions = () =>
     data.map((suggestion) => {
       const {
@@ -172,14 +180,15 @@ const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
           <Row style={{ padding: '3px' }}>
             <Col span={24}>
               <Row>
-                <Input
-                  style={{ width: '100%' }}
-                  disabled={!ready || defaultData}
-                  value={value}
-                  onChange={handleInput}
-                  placeholder="Place or Address"
-                />
-                {status === 'OK' && !defaultData && <ul>{renderSuggestions()}</ul>}
+                <div ref={ref} style={{ width: '100%' }}>
+                  <Input
+                    disabled={!ready || defaultData}
+                    value={value}
+                    onChange={handleInput}
+                    placeholder="Place or Address"
+                  />
+                  {status === 'OK' && !defaultData && <ul>{renderSuggestions()}</ul>}
+                </div>
               </Row>
               <Row>{!value && <div style={validationWarning}>{placeValidateMessage}</div>}</Row>
             </Col>

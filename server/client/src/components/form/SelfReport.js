@@ -63,10 +63,10 @@ function SelfReport({ addConfirmedDate, resetOnSelfReportSubmit }) {
   return (
     <div>
       <Row style={{ margin: '20px 0px' }}>
-        <Col span={7}></Col>
-        <Col span={6}>
+        <Col span={8}></Col>
+        <Col span={5}>
           {/* <Row> */}
-          Confirmed Date:
+          Confirmed Date:{' '}
           <DatePicker
             value={confirmedDate}
             onChange={(selectedDate, dateString) => {

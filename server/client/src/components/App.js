@@ -3,9 +3,9 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import Chatbot from './chatbot/Chatbot'
 import { MessageTwoTone, CloseCircleTwoTone } from '@ant-design/icons'
 import styles from '../styles/styles'
-import Landing from './pages/Landing'
+import Dashboard from './pages/Dashboard'
 import Map from './map/Map'
-import SelfReport from './form/SelfReport'
+import SelfReport from './reportcase/SelfReport'
 import Navbar from './layout/Navbar'
 
 function App() {
@@ -24,11 +24,11 @@ function App() {
   return (
     <BrowserRouter>
       <React.Fragment>
-        <Navbar />
         <div style={styles.body}>
-          <Route exact path="/" component={Landing} />
-          <Route exact path="/map" component={Map} />
+          <Route exact path="/" component={Dashboard} />
+          <Route path="/map" component={Map} />
           <Route path="/selfReport" component={SelfReport} />
+          <Navbar />
           {showchatIcon()}
           {showChatbot()}
         </div>

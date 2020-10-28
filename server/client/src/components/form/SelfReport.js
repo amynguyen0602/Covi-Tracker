@@ -31,7 +31,6 @@ function SelfReport({ addConfirmedDate, resetOnSelfReportSubmit }) {
     if (confirmedDate && visits.length > 0) {
       addConfirmedDate(confirmedDate)
       // send the object to the server
-      console.log(store.getState())
 
       fetch('http://localhost:5000/api/self_report', {
         method: 'POST',
@@ -40,16 +39,6 @@ function SelfReport({ addConfirmedDate, resetOnSelfReportSubmit }) {
         },
         body: JSON.stringify(store.getState().selfReport),
       })
-      // .then((res) => {
-      //   console.log(res)
-      //   return res.text()
-      // })
-      // .then((data) => {
-      //   console.log(data)
-      // })
-      // .catch((e) => {
-      //   console.log(e.message)
-      // })
 
       // reset things
       setConfirmedDate(null)

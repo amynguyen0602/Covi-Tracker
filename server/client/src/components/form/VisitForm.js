@@ -48,8 +48,6 @@ const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
         lng: longitude,
       })
 
-      console.log(getVisits())
-
       setDate(null)
       setTime(null)
       setValue(null)
@@ -102,7 +100,6 @@ const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
     getGeocode({ address: description })
       .then((results) => getLatLng(results[0]))
       .then(({ lat, lng }) => {
-        console.log('📍 Coordinates: ', { lat, lng })
         latitude = lat
         longitude = lng
       })

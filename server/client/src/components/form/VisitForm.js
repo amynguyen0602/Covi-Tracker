@@ -117,8 +117,7 @@ const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
     // the searched suggestions by calling this method
     clearSuggestions()
     setSelectedPlace(selectedPlace ? selectedPlace : '')
-    setValue(selectedPlace ? selectedPlace : '')
-    console.log(`useOnclickOutside!!!!!!`)
+    defaultData ? setValue(defaultData ? defaultData.place : value) : setValue(selectedPlace ? selectedPlace : '')
   })
 
   const renderSuggestions = () =>

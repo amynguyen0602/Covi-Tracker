@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Form, DatePicker, TimePicker, Input, Button, Row, Col, List } from 'antd'
+import { DatePicker, TimePicker, Input, Button, Row, Col, List } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete'
 import useOnclickOutside from 'react-cool-onclickoutside'
@@ -11,8 +11,8 @@ const validationWarning = {
   color: 'red',
   paddingLeft: 2,
 }
-let latitude = 0
-let longitude = 0
+let latitude = null
+let longitude = null
 
 const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
   const [date, setDate] = useState(defaultData && defaultData.date ? defaultData.date : null)
@@ -53,9 +53,12 @@ const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
       setDate(null)
       setTime(null)
       setValue(null)
+      setSelectedPlace(null)
       setDateValidateMessage('')
       setTimeValidateMessage('')
       setPlaceValidateMessage('')
+      latitude = null
+      longitude = null
     }
   }
 
@@ -94,6 +97,7 @@ const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
     // When user selects a place, we can replace the keyword without request data from API
     // by setting the second parameter as "false"
     setValue(description, false)
+    setSelectedPlace(description)
     // Get latitude and longitude via utility functions
     getGeocode({ address: description })
       .then((results) => getLatLng(results[0]))
@@ -112,7 +116,9 @@ const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
     // When user clicks outside of the component, we can dismiss
     // the searched suggestions by calling this method
     clearSuggestions()
-    setValue('')
+    setSelectedPlace(selectedPlace ? selectedPlace : '')
+    setValue(selectedPlace ? selectedPlace : '')
+    console.log(`useOnclickOutside!!!!!!`)
   })
 
   const renderSuggestions = () =>

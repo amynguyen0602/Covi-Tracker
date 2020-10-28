@@ -40,23 +40,23 @@ function SelfReport({ addConfirmedDate, resetOnSelfReportSubmit }) {
         },
         body: JSON.stringify(store.getState().selfReport),
       })
-      // .then((res) => {
-      //   console.log(res)
-      //   return res.text()
-      // })
-      // .then((data) => {
-      //   console.log(data)
-      // })
-      // .catch((e) => {
-      //   console.log(e.message)
-      // })
-
-      resetOnSelfReportSubmit()
+        .then((res) => {
+          console.log(res)
+          return res.text()
+        })
+        .then((data) => {
+          console.log(data)
+        })
+        .catch((e) => {
+          console.log(e.message)
+        })
 
       // reset things
       setConfirmedDate(null)
       setConfirmedDateValidateMessage('')
       setVisitValidateMessage('')
+
+      resetOnSelfReportSubmit()
     }
   }
 

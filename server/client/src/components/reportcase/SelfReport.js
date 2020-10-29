@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { DatePicker, Row, Col, Button } from 'antd'
 import { getVisits, addConfirmedDate, resetOnSelfReportSubmit } from '../../redux/actions/visitsActions'
-import store from '../../redux/store'
 import VisitForm from './VisitForm'
 
 const validationWarning = {
@@ -32,13 +31,13 @@ function SelfReport({ addConfirmedDate, resetOnSelfReportSubmit }) {
       addConfirmedDate(confirmedDate)
       // send the object to the server
 
-      fetch('http://localhost:5000/api/self_report', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(store.getState().selfReport),
-      })
+      // fetch('http://localhost:5000/api/self_report', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify(store.getState().selfReport),
+      // })
 
       // reset things
       setConfirmedDate(null)

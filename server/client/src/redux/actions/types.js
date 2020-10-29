@@ -1,2 +1,6 @@
 export const FETCH_STATISTICS = 'fetch_statistics'
 export const FETCH_CHATBOT_RESPONSE = 'fetch_chatbot_response'
+export const ADD_VISITS = 'add_visits'
+export const REMOVE_VISIT = 'remove_visit'
+export const ADD_CONFIRMED_DATE = 'add_confirm_date'
+export const RESET_ON_SELF_REPORT_SUBMIT = 'reset_on_self_report_submit'

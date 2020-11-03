@@ -1,6 +1,8 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 
+import statisticReducer from './reducers/statisticReducer'
+import chatbotReducer from './reducers/chatbotReducer'
 import visitsReducer from './reducers/visitsReducer'
 
 const initialState = {}
@@ -9,6 +11,8 @@ const middleware = [thunk]
 
 const reducers = combineReducers({
   selfReport: visitsReducer,
+  statistics: statisticReducer,
+  chatbot: chatbotReducer,
 })
 
 const store = createStore(

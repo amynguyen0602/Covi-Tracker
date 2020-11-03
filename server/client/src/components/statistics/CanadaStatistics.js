@@ -1,71 +1,75 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import * as actions from '../../redux/actions'
-import { Card } from 'antd';
+import React, { useState, useEffect } from 'react'
+import { connect, useSelector } from 'react-redux'
+import { fetchCanStatistic } from '../../redux/actions/index'
+import { Card } from 'antd'
 import StatisticCard from './StatisticCard'
 
-export class CanadaStatistics extends Component {
-	state = {
-		statistic: []
-	}
-	async componentDidMount() {
-		await this.props.fetchCanStatistic()
-		const statistic  = this.props.statistic.data[0]
-		const statisticArray = [
-			{
-				title: 'Confirmed',
-				total: statistic.total_cases,
-				change: statistic.change_cases
-			},
-			{
-				title: 'Active',
-				total: statistic.total_cases - statistic.total_recoveries - statistic.total_fatalities,
-				change: statistic.change_cases - statistic.change_recoveries - statistic.change_fatalities
-			},
-			{
-				title: 'Recovered',
-				total: statistic.total_recoveries,
-				change: statistic.change_recoveries
-			},
-			{
-				title: 'Deaths',
-				total: statistic.total_fatalities,
-				change: statistic.change_fatalities
-			}
-		]
-		this.setState({statistic: statisticArray})
-	}
+export function CanadaStatistics({ fetchCanStatistic }) {
+  const [statisticArray, setStatisticArray] = useState([])
+  const canada = useSelector((state) => state.statistics.canada)
 
-	renderStatistic = () => {
-		return this.state.statistic.map(stat => {
-			return <StatisticCard key = {stat.title} data = {stat} />
-		})
-	}
-	render() {
-		return (
-			<Card
-				style={{ margin: '20px 10px 20px 10px', boxShadow: '1px 1px 10px 2px #F0F0F0' }}
-				title={
-					<div>
-						<img alt="" src="/canada-flag.png" style={{ width: '20px' }} />
-						<span style={{
-								padding: '10px',
-								position: 'relative',
-								top: '2px',
-								fontWeight: 'bold',
-							}}> Canada </span>
-					</div>
-				}> 
-				{this.renderStatistic()}
-			</Card>
-		);
-	}
-}
+  useEffect(() => {
+    fetchCanStatistic()
+  }, [])
 
-function mapStateToProps({ statistic } ) {
-    return {
-		statistic
+  useEffect(() => {
+    if (canada) {
+      const statistic = canada.data[0]
+
+      setStatisticArray([
+        {
+          title: 'Confirmed',
+          total: statistic.total_cases,
+          change: statistic.change_cases,
+        },
+        {
+          title: 'Active',
+          total: statistic.total_cases - statistic.total_recoveries - statistic.total_fatalities,
+          change: statistic.change_cases - statistic.change_recoveries - statistic.change_fatalities,
+        },
+        {
+          title: 'Recovered',
+          total: statistic.total_recoveries,
+          change: statistic.change_recoveries,
+        },
+        {
+          title: 'Deaths',
+          total: statistic.total_fatalities,
+          change: statistic.change_fatalities,
+        },
+      ])
     }
+  }, [canada])
+
+  const renderStatistic = () => {
+    return statisticArray.map((stat) => {
+      return <StatisticCard key={stat.title} data={stat} />
+    })
+  }
+
+  return (
+    <Card
+      style={{ margin: '20px 10px 20px 10px', boxShadow: '1px 1px 10px 2px #F0F0F0' }}
+      title={
+        <div>
+          <img alt="" src="/canada-flag.png" style={{ width: '20px' }} />
+          <span
+            style={{
+              padding: '10px',
+              position: 'relative',
+              top: '2px',
+              fontWeight: 'bold',
+            }}
+          >
+            {' '}
+            Canada{' '}
+          </span>
+        </div>
+      }
+    >
+      {renderStatistic()}
+    </Card>
+  )
 }
 
-export default connect(mapStateToProps, actions) (CanadaStatistics);
+export default connect(null, { fetchCanStatistic })(CanadaStatistics)

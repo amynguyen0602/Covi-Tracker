@@ -11,8 +11,9 @@ const validationWarning = {
   paddingLeft: 2,
 }
 
-function SelfReport({ addConfirmedDate, resetOnSelfReportSubmit }) {
-  const visits = useSelector((state) => state.selfReport.visits)
+function SelfReport({ addConfirmedDate, resetOnSelfReportSubmit, visits }) {
+  console.log(visits)
+  // const visits = useSelector((state) => state.selfReport.visits)
   const [confirmedDate, setConfirmedDate] = useState()
   const [confirmedDateValidateMessage, setConfirmedDateValidateMessage] = useState('')
   const [visitValidateMessage, setVisitValidateMessage] = useState('')

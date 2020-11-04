@@ -24,3 +24,15 @@
   top: 0;
   width: 100%;
 }
+
+
+.chatbot {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  overflow: auto;
+}
+
+
+.chatbot::-webkit-scrollbar {
+  display: none;
+}

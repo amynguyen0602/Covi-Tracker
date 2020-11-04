@@ -1,6 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux'
-import * as actions from '../../redux/actions'
 import { Row, Col, Divider } from 'antd';
 import { Timeline } from 'antd';
 import TimelineItem from '../reportcase/TimelineItem';
@@ -46,8 +44,8 @@ const events = [
 	},
 ];
 
-class Dashboard extends React.Component {
-	timelineEvent = (events) => {
+function Dashboard() {
+	const timelineEvent = (events) => {
 		return events.map((event) => {
 			return (
 				<Timeline.Item key={event.id}>
@@ -56,26 +54,24 @@ class Dashboard extends React.Component {
 			);
 		});
 	};
-	render() {
-		return (
-			<>
-				<Row>
-					<Col xs={24} sm={24} md={18} lg={18} xl={18}>
-						<div style={{margin: '20px 10px 20px 10px',
-								padding: '50px',
-								boxShadow: '1px 1px 10px 2px #F0F0F0', minHeight: '774px'}}>
-							<Timeline mode="left">{this.timelineEvent(events)}</Timeline>
-						</div>
-					</Col>
-					<Col xs={24} sm={24} md={6} lg={6} xl={6}>
-						<CanadaStatistics />
-						<Divider />
-						<ProvinceStatistics />
-					</Col>
-				</Row>
-			</>
-		);
-	}
+	return (
+		<>
+			<Row>
+				<Col xs={24} sm={24} md={18} lg={18} xl={18}>
+					<div style={{margin: '20px 10px 20px 10px',
+							padding: '50px',
+							boxShadow: '1px 1px 10px 2px #F0F0F0', minHeight: '774px'}}>
+						<Timeline mode="left">{timelineEvent(events)}</Timeline>
+					</div>
+				</Col>
+				<Col xs={24} sm={24} md={6} lg={6} xl={6}>
+					<CanadaStatistics />
+					<Divider />
+					<ProvinceStatistics />
+				</Col>
+			</Row>
+		</>
+	)
 }
 
-export default connect(null, actions) (Dashboard);
+export default Dashboard;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Select, Card } from 'antd'
 import { connect, useSelector } from 'react-redux'
-import { fetchProvinceStatistic } from '../../redux/actions/index'
+import { fetchProvinceStatistic } from '../../redux/actions/statisticActions'
 import axios from 'axios'
 import StatisticCard from './StatisticCard'
 

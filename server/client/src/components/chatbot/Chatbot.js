@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import * as actions from '../../redux/actions'
+import { send_bot_event, send_bot_text } from '../../redux/actions/chatbotActions'
 import { connect } from 'react-redux'
 import Cookies from 'universal-cookie'
 import { v4 as uuid } from 'uuid'
@@ -125,4 +125,4 @@ function mapStateToProps({ chatbot } ) {
     }
 }
 
-export default connect(mapStateToProps, actions) (Chatbot)
+export default connect(mapStateToProps, { send_bot_event, send_bot_text}) (Chatbot)

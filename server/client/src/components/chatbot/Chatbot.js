@@ -108,7 +108,7 @@ export class Chatbot extends Component {
 							enterButton={<SendOutlined />}
 							value={this.state.userInput}
 							onChange={this.onChangeInput}/>,]}>
-					<div style={styles.chatDiv}>
+					<div style={styles.chatDiv} className = "chatbot">
 						{this.renderMessages(this.state.messages)}
 						<div ref={(el) => {this.messageEnd = el}}
 						/>

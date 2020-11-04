@@ -44,7 +44,7 @@ export default {
 	},
 	icon: { fontSize: '14pt', color: 'hotpink', position: 'relative', top: 5 },
 	messageSend: { width: '330px', maxWidth: '100%' },
-	chatDiv: { height: '340px', overflow: 'auto' },
+	chatDiv: { height: '340px' },
 	alert: {
 		position: 'fixed',
 		top: 74,

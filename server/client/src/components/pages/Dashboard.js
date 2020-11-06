@@ -4,48 +4,10 @@ import { Timeline } from 'antd';
 import TimelineItem from '../reportcase/TimelineItem';
 import CanadaStatistics from '../statistics/CanadaStatistics';
 import ProvinceStatistics from '../statistics/ProvinceStatistics';
-import { connect, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { fetchReportCases } from '../../redux/actions/visitsActions'
 import { useEffect, useState } from 'react';
 
-const events = [
-	{
-		id: 1,
-		date: '01-Sep-2020',
-		province: 'BC',
-		provinceName: 'British Columbia',
-		places: [
-			{ id: 1, date: '25-Aug-2020', time: '', address: 'ABC Restaurant', city: 'Burnaby' },
-			{ id: 2, date: '25-Aug-2020', time: '12:00 PM', address: 'ABC Restaurant', city: 'Vancouver' },
-			{ id: 3, date: '25-Aug-2020', time: '12:00 PM', address: 'ABC Restaurant', city: 'Burnaby' },
-			{ id: 4, date: '25-Aug-2020', time: '12:00 PM', address: 'ABC Restaurant', city: 'Surrey' },
-			{ id: 5, date: '25-Aug-2020', time: '12:00 PM', address: 'ABC Restaurant', city: 'Surrey' },
-			{ id: 6, date: '25-Aug-2020', time: '12:00 PM', address: 'ABC Restaurant', city: 'Surrey' },
-		],
-	},
-	{
-		id: 2,
-		date: '27-Aug-2020',
-		province: 'ON',
-		provinceName: 'Ontario',
-		places: [
-			{ id: 1, date: '25-Aug-2020', time: '12:00 PM', address: 'ABC Restaurant', city: 'Surrey' },
-			{ id: 2, date: '25-Aug-2020', time: '12:00 PM', address: 'ABC Restaurant', city: 'Surrey' },
-			{ id: 3, date: '25-Aug-2020', time: '12:00 PM', address: 'ABC Restaurant', city: 'Surrey' },
-		],
-	},
-	{
-		id: 3,
-		date: '25-Aug-2020',
-		province: 'AB',
-		provinceName: 'Alberta',
-		places: [
-			{ id: 1, date: '25-Aug-2020', time: '', address: 'ABC Restaurant, Burnaby', city: 'Surrey' },
-			{ id: 2, date: '25-Aug-2020', time: '12:00 PM', address: 'ABC Restaurant', city: 'Surrey' },
-			{ id: 3, date: '25-Aug-2020', time: '', address: 'ABC Restaurant, Burnaby', city: 'Surrey' },
-		],
-	},
-];
 
 function Dashboard({ fetchReportCases, reportCases }) {
 

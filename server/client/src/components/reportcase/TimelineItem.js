@@ -2,13 +2,13 @@ import React from 'react';
 import { Popover, Tag, Button } from 'antd';
 import { MoreOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import moment from "moment";
 
 function TimelineItem({ event }) {
 	const placeSummary = event.visits.map((place) => {
 			return (
 				<p key={place._id} style={{ marginTop: '10px' }}>
-					{place.date} {place.place} 
+					{moment(place.date).format("DD-MMM-YYYY")} {place.place} 
 				</p>
 			);
 	});
@@ -16,7 +16,7 @@ function TimelineItem({ event }) {
 	const placeDetails = event.visits.map((place) => {
 		return (
 			<p key={place._id}>
-				{place.date} {place.time}{' '}
+				{moment(place.date).format("DD-MMM-YYYY")} {moment(place.time).format("HH:MM")}{' '}
 				<Link to="/map">
 					{place.place}
 				</Link>
@@ -53,7 +53,7 @@ function TimelineItem({ event }) {
 
 	return (
 		<div>
-			<p>{event.confirmedDate}</p>
+			<p>{moment(event.confirmedDate).format("DD-MMM-YYYY")}</p>
 			<Popover
 				content={placeDetails}
 				title={province}

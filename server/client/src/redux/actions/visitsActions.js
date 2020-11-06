@@ -43,3 +43,11 @@ export const addSelfReportCase = (selfReport) => async (dispatch) => {
     payload: res.data,
   })
 }
+
+export const fetchReportCases = () => async (dispatch) => {
+  const res = await axios.get('/api/report_cases')
+  dispatch({
+    type: 'FETCH_REPORT_CASES',
+    payload: res.data,
+  })
+}

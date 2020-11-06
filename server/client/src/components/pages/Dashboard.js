@@ -4,6 +4,9 @@ import { Timeline } from 'antd';
 import TimelineItem from '../reportcase/TimelineItem';
 import CanadaStatistics from '../statistics/CanadaStatistics';
 import ProvinceStatistics from '../statistics/ProvinceStatistics';
+import { connect, useSelector } from 'react-redux'
+import { fetchReportCases } from '../../redux/actions/visitsActions'
+import { useEffect, useState } from 'react';
 
 const events = [
 	{
@@ -44,16 +47,28 @@ const events = [
 	},
 ];
 
-function Dashboard() {
-	const timelineEvent = (events) => {
+function Dashboard({ fetchReportCases, reportCases }) {
+
+	const [events, setEvents] = useState([])
+
+	const timelineEvent = () => {
 		return events.map((event) => {
 			return (
-				<Timeline.Item key={event.id}>
+				<Timeline.Item key={event._id}>
 					<TimelineItem event={event} />
 				</Timeline.Item>
 			);
 		});
 	};
+	useEffect(() => {
+		fetchReportCases()
+	})
+
+	useEffect(() => {
+		if(reportCases) {
+			setEvents(reportCases)
+		}
+	})
 	return (
 		<>
 			<Row>
@@ -61,7 +76,7 @@ function Dashboard() {
 					<div style={{margin: '20px 10px 20px 10px',
 							padding: '50px',
 							boxShadow: '1px 1px 10px 2px #F0F0F0', minHeight: '774px'}}>
-						<Timeline mode="left">{timelineEvent(events)}</Timeline>
+						<Timeline mode="left">{timelineEvent()}</Timeline>
 					</div>
 				</Col>
 				<Col xs={24} sm={24} md={6} lg={6} xl={6}>
@@ -74,4 +89,10 @@ function Dashboard() {
 	)
 }
 
-export default Dashboard;
+const mapStateToProps = ({selfReport: {reportCases}}) => {
+	return {
+		reportCases
+	}
+}
+
+export default connect(mapStateToProps, { fetchReportCases }) (Dashboard);

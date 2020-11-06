@@ -22,7 +22,18 @@ export default function (state = initialState, action) {
       }
     case 'RESET_ON_SELF_REPORT_SUBMIT':
       return action.payload
+    case 'ADD_SELF_REPORT_CASE':
+      return {
+        ...state,
+        newCase: action.payload,
+      }
+    case 'FETCH_REPORT_CASES':
+      return {
+        ...state,
+        reportCases: action.payload,
+      }
     default:
       return state
+    
   }
 }

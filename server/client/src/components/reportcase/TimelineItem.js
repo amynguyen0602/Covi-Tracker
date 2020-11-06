@@ -2,31 +2,41 @@ import React from 'react';
 import { Popover, Tag, Button } from 'antd';
 import { MoreOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function TimelineItem({ event }) {
-	const placeSummary = event.places.map((place) => {
-		if (place.id < 3)
+	const placeSummary = event.visits.map((place) => {
 			return (
-				<p key={place.id} style={{ marginTop: '10px' }}>
-					{place.date} {place.address} {place.city}
+				<p key={place._id} style={{ marginTop: '10px' }}>
+					{place.date} {place.place} 
 				</p>
 			);
-		else return null;
 	});
 
-	const placeDetails = event.places.map((place) => {
+	const placeDetails = event.visits.map((place) => {
 		return (
-			<p key={place.id}>
+			<p key={place._id}>
 				{place.date} {place.time}{' '}
 				<Link to="/map">
-					{place.address} {place.city}
+					{place.place}
 				</Link>
 			</p>
 		);
 	});
 
-	const tags = event.places.map((place) => {
+	const tags = event.visits.map((place) => {
 		return place.city;
+	});
+
+	const provinces = event.visits.map((place) => place.province)
+	const uniqueProvince = provinces.filter((val, idx) => {
+		return provinces.indexOf(val) === idx;
+	})
+
+	const province = uniqueProvince.map((eachProvince) => {
+		return (
+			<span style={{ color: '#c90711', fontWeight: 'bold' }}>{eachProvince}</span>
+		);
 	});
 
 	const uniqueTags = tags.filter((val, idx) => {
@@ -43,17 +53,17 @@ function TimelineItem({ event }) {
 
 	return (
 		<div>
-			<p>{event.date}</p>
+			<p>{event.confirmedDate}</p>
 			<Popover
 				content={placeDetails}
-				title={<span style={{ color: '#c90711', fontWeight: 'bold' }}>{event.provinceName}</span>}
+				title={province}
 				trigger="hover"
 			>
 				<Button type="primary" icon={<MoreOutlined />} style={{ float: 'right' }}>
 					More
 				</Button>
 			</Popover>
-			<h3 style={{ color: '#c90711', fontWeight: 'bold' }}>{event.province}</h3>
+			<h3 style={{ color: '#c90711', fontWeight: 'bold' }}>{province}</h3>
 			{tag}
 			{placeSummary}
 		</div>

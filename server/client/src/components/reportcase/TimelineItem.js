@@ -16,7 +16,7 @@ function TimelineItem({ event }) {
 	const placeDetails = event.visits.map((place) => {
 		return (
 			<p key={place._id}>
-				{moment(place.date).format("DD-MMM-YYYY")} {moment(place.time).format("HH:MM")}{' '}
+				{moment(place.date).format("DD-MMM-YYYY")} {moment(place.time).format("hh:MM A")}{' '}
 				<Link to="/map">
 					{place.place}
 				</Link>
@@ -35,7 +35,7 @@ function TimelineItem({ event }) {
 
 	const province = uniqueProvince.map((eachProvince) => {
 		return (
-			<span style={{ color: '#c90711', fontWeight: 'bold' }}>{eachProvince}</span>
+			<span key = {eachProvince} style={{ color: '#c90711', fontWeight: 'bold' }}>{eachProvince}</span>
 		);
 	});
 

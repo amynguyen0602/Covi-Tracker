@@ -39,7 +39,7 @@ export class Chatbot extends Component {
 		const userID = cookies.get('userID')
 		await this.props.send_bot_text({ text, userID })
 
-		_.forEach(this.props.chatbot.fulfillmentMessages, (msg) => {
+		_.forEach(this.props.bot_response.fulfillmentMessages, (msg) => {
 			says = {
 				speaks: 'bot',
 				msg: msg,
@@ -52,7 +52,7 @@ export class Chatbot extends Component {
 		const userID = cookies.get('userID')
 		await this.props.send_bot_event({ event, userID })
 
-		_.forEach(this.props.chatbot.fulfillmentMessages, (msg) => {
+		_.forEach(this.props.bot_response.fulfillmentMessages, (msg) => {
 			let says = {
 				speaks: 'bot',
 				msg: msg,
@@ -119,9 +119,9 @@ export class Chatbot extends Component {
 	}
 }
 
-function mapStateToProps({ chatbot } ) {
+function mapStateToProps({ chatbot: {bot_response} } ) {
     return {
-		chatbot
+		bot_response
     }
 }
 

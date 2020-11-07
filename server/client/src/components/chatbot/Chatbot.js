@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import * as actions from '../../redux/actions'
+import { send_bot_event, send_bot_text } from '../../redux/actions/chatbotActions'
 import { connect } from 'react-redux'
 import Cookies from 'universal-cookie'
 import { v4 as uuid } from 'uuid'
@@ -39,7 +39,7 @@ export class Chatbot extends Component {
 		const userID = cookies.get('userID')
 		await this.props.send_bot_text({ text, userID })
 
-		_.forEach(this.props.chatbot.fulfillmentMessages, (msg) => {
+		_.forEach(this.props.bot_response.fulfillmentMessages, (msg) => {
 			says = {
 				speaks: 'bot',
 				msg: msg,
@@ -52,7 +52,7 @@ export class Chatbot extends Component {
 		const userID = cookies.get('userID')
 		await this.props.send_bot_event({ event, userID })
 
-		_.forEach(this.props.chatbot.fulfillmentMessages, (msg) => {
+		_.forEach(this.props.bot_response.fulfillmentMessages, (msg) => {
 			let says = {
 				speaks: 'bot',
 				msg: msg,
@@ -119,10 +119,10 @@ export class Chatbot extends Component {
 	}
 }
 
-function mapStateToProps({ chatbot } ) {
+function mapStateToProps({ chatbot: {bot_response} } ) {
     return {
-		chatbot
+		bot_response
     }
 }
 
-export default connect(mapStateToProps, actions) (Chatbot)
+export default connect(mapStateToProps, { send_bot_event, send_bot_text}) (Chatbot)

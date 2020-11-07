@@ -1,8 +1,11 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-//const keys = require('./config/keys')
+const mongoose = require('mongoose')
+const keys = require('./config/keys')
+require('./models/ReportCase')
 
+mongoose.connect(keys.mongoURI)
 const app = express()
 app.use(bodyParser.json())
 app.use(cors())

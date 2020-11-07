@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect, useSelector } from 'react-redux'
-import { fetchCanStatistic } from '../../redux/actions/index'
+import { fetchCanStatistic } from '../../redux/actions/statisticActions'
 import { Card } from 'antd'
 import StatisticCard from './StatisticCard'
 

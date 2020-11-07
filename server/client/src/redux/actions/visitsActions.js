@@ -1,4 +1,4 @@
-import store from '../store'
+import axios from 'axios'
 
 export const getVisits = () => (dispatch, getState) => {
   return getState().selfReport.visits
@@ -33,5 +33,21 @@ export const resetOnSelfReportSubmit = () => (dispatch) => {
       visits: [],
       confirmedDate: null,
     },
+  })
+}
+
+export const addSelfReportCase = (selfReport) => async (dispatch) => {
+  const res = await axios.post('/api/self_report', selfReport)
+  dispatch({
+    type: 'ADD_SELF_REPORT_CASE',
+    payload: res.data,
+  })
+}
+
+export const fetchReportCases = () => async (dispatch) => {
+  const res = await axios.get('/api/report_cases')
+  dispatch({
+    type: 'FETCH_REPORT_CASES',
+    payload: res.data,
   })
 }

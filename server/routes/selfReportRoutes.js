@@ -31,6 +31,11 @@ module.exports = (app) => {
 
   app.get('/api/report_cases', async (req, res) => {
     const reportCases = await ReportCase.find().populate("visits")
-    res.send(reportCases)
+    const reportCasesRecent = reportCases.filter(reportCase => {
+      const confirmedDate = new Date(reportCase.confirmedDate).getTime() / (1000 * 60 * 60 * 24)
+      const today = (new Date()).getTime() / (1000 * 60 * 60 * 24)
+      return (today - confirmedDate <= 14)
+    })
+    res.send(reportCasesRecent)
   })
 }

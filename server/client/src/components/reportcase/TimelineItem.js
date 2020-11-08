@@ -8,7 +8,7 @@ function TimelineItem({ event }) {
 	const placeSummary = event.visits.slice(0, 2).map((place) => {
 			return (
 				<p key={place._id} style={{ marginTop: '10px' }}>
-					{moment(place.date).format("DD-MMM-YYYY")} {place.place} 
+					{moment(place.date).format("DD-MMM-YYYY")}  <span style={{marginLeft: '15px'}}>{place.place}</span>
 				</p>
 			);
 	});

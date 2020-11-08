@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const keys = require('./config/keys')
 require('./models/ReportCase')
 
-mongoose.connect(keys.mongoURI)
+mongoose.connect(keys.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 const app = express()
 app.use(bodyParser.json())
 app.use(cors())

@@ -23,11 +23,23 @@ function Map() {
     console.log('search button clicked')
   }
 
+  const renderMarkers = (map, maps) => {
+    let marker = new maps.Marker({
+      position: currentGeoLocation,
+      map,
+      title: 'This is current location',
+    })
+  }
+
   return (
     <div style={{ width: '80vw', margin: '0px auto' }}>
       <Search placeholder="input search text" onSearch={handleSearch} enterButton size="large" />
       <div style={{ height: '70vh', width: 'calc(100vw - 100px)' }}>
-        <GoogleMapReact defaultCenter={currentGeoLocation} defaultZoom={14}></GoogleMapReact>
+        <GoogleMapReact
+          defaultCenter={currentGeoLocation}
+          defaultZoom={14}
+          onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
+        ></GoogleMapReact>
       </div>
     </div>
   )

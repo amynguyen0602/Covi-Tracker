@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import GoogleMapReact from 'google-map-react'
 import { Input } from 'antd'
-import { AudioOutlined } from '@ant-design/icons'
-import googleMapReact from 'google-map-react'
+import { connect, useSelector } from 'react-redux'
+import { fetchReportCases } from '../../redux/actions/visitsActions'
 
 const { Search } = Input
 
-function Map() {
+function Map({ fetchReportCases }) {
+  const reportCases = useSelector((state) => state.selfReport.reportCases)
   const [currentGeoLocation, setCurrentGeoLocation] = useState({ lat: 49.246292, lng: -123.116226 })
+  let visits = []
+
+  useEffect(() => {
+    fetchReportCases()
+  }, [])
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -19,6 +25,14 @@ function Map() {
       })
     }
   }, [currentGeoLocation])
+
+  if (reportCases) {
+    reportCases.map((report) => {
+      report.visits.map((visit) => {
+        visits.push(visit)
+      })
+    })
+  }
 
   const handleSearch = () => {
     console.log('search button clicked')
@@ -99,4 +113,4 @@ function Map() {
   )
 }
 
-export default Map
+export default connect(null, { fetchReportCases })(Map)

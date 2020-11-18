@@ -1,7 +1,9 @@
 import React from 'react'
+import InfoWindow from './InfoWindow'
 
-const Marker = (props) => {
-  const markerSytle = {
+// Marker component
+const CovidMarker = ({ show, place }) => {
+  const markerStyle = {
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -12,9 +14,16 @@ const Marker = (props) => {
     borderRadius: '100%',
     userSelect: 'none',
     transform: 'translate(-50%, -50%)',
+    backgroundColor: 'purple',
+    cursor: 'pointer',
   }
 
-  const { color, name, id } = props
-
-  return <div className="marker" style={{ backgroundColor: color, cursor: 'pointer' }} title={name} />
+  return (
+    <>
+      <div style={markerStyle} />
+      {show && <InfoWindow visit={place} />}
+    </>
+  )
 }
+
+export default CovidMarker

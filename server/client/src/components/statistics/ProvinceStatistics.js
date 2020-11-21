@@ -8,12 +8,14 @@ import StatisticCard from './StatisticCard'
 export function ProvinceStatistics({ fetchProvinceStatistic }) {
   const [provinces, setProvinces] = useState([])
   const [statisticArray, setStatisticArray] = useState([])
+	const [currentProvince, setCurrentProvince] = useState('')
 
   const provincial = useSelector((state) => state.statistics.provincial)
 
   useEffect(() => {
-    fetchProvinceStatistic('BC')
-  }, [])
+    if(currentProvince)
+      fetchProvinceStatistic(currentProvince)
+  }, [currentProvince])
 
   useEffect(() => {
     async function fetchData() {
@@ -51,6 +53,23 @@ export function ProvinceStatistics({ fetchProvinceStatistic }) {
     }
   }, [provincial])
 
+  
+
+	useEffect(() => {
+		const getCurrentLocation = async () => {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(async ({coords: {longitude, latitude}}) => {
+          console.log();
+        const res = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${process.env.REACT_APP_GOOGLE_API_KEY}`)
+        const { results } = res.data
+        const provinces = results.filter((addressRes) => addressRes.types[0] == "administrative_area_level_1")
+        setCurrentProvince(provinces[0].address_components[0].short_name)
+       }) 
+      }
+    } 
+    getCurrentLocation()
+  }, [])
+
   const renderStatistic = () => {
     return statisticArray.map((stat) => {
       return <StatisticCard key={stat.title} data={stat} />
@@ -68,6 +87,7 @@ export function ProvinceStatistics({ fetchProvinceStatistic }) {
   }
 
   const onChange = async (val) => {
+    setCurrentProvince(val)
     await fetchProvinceStatistic(val)
   }
 
@@ -80,10 +100,10 @@ export function ProvinceStatistics({ fetchProvinceStatistic }) {
           style={{ width: 200 }}
           placeholder="Select province"
           optionFilterProp="children"
-          defaultValue="BC"
+          value={currentProvince}
           onChange={onChange}
           filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-        >
+        > 
           {getProvinceSelection()}
         </Select>
       }

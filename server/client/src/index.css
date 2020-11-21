@@ -36,3 +36,14 @@
 .chatbot::-webkit-scrollbar {
   display: none;
 }
+
+.map {
+  background-color: #cf164d !important;
+  border: none !important;
+  font-weight: bold !important;
+  margin-bottom: 10px;
+}
+
+.map:hover {
+  opacity: 0.7;
+}

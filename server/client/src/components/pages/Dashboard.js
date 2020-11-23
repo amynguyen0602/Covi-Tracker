@@ -25,7 +25,6 @@ function Dashboard({ fetchReportCases }) {
 	};
 
 	useEffect(() => {
-		console.log("test");
 		fetchReportCases()
 	}, []);
 

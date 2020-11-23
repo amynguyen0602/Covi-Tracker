@@ -17,6 +17,7 @@ function Navbar({ location, fetchReportCases }) {
 		if ("geolocation" in navigator) {
 			navigator.geolocation.getCurrentPosition(async ({coords: {longitude, latitude}}) => {
 				setCurrentLocation({latitude, longitude})
+				fetchReportCases()
 		   }) 
 		  }
 	}, [])

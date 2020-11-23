@@ -12,7 +12,6 @@ function Navbar({ location, fetchReportCases }) {
 	const [nearbyCasesCount, setNearbyCasesCount] = useState(0)
 
 	const reportCases = useSelector((state) => state.selfReport.reportCases)
-	const newCase = useSelector((state) => state.selfReport.newCase)
 	useEffect(() => {
 		if ("geolocation" in navigator) {
 			navigator.geolocation.getCurrentPosition(async ({coords: {longitude, latitude}}) => {
@@ -25,7 +24,7 @@ function Navbar({ location, fetchReportCases }) {
 	
 	useEffect(() => {
 		fetchReportCases()
-	}, [newCase])
+	}, [])
 
 	useEffect(() => {
 		const { latitude, longitude } = currentLocation

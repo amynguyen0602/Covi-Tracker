@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { DatePicker, Row, Col, Button } from 'antd'
-import { getVisits, addConfirmedDate, resetOnSelfReportSubmit, addSelfReportCase } from '../../redux/actions/visitsActions'
+import { getVisits, addConfirmedDate, resetOnSelfReportSubmit, addSelfReportCase, fetchReportCases } from '../../redux/actions/visitsActions'
 import store from '../../redux/store'
 import VisitForm from './VisitForm'
 
@@ -11,14 +11,14 @@ const validationWarning = {
   paddingLeft: 2,
 }
 
-function SelfReport({ addConfirmedDate, resetOnSelfReportSubmit, visits, addSelfReportCase }) {
+function SelfReport({ addConfirmedDate, resetOnSelfReportSubmit, visits, addSelfReportCase, fetchReportCases }) {
   console.log(visits)
   // const visits = useSelector((state) => state.selfReport.visits)
   const [confirmedDate, setConfirmedDate] = useState()
   const [confirmedDateValidateMessage, setConfirmedDateValidateMessage] = useState('')
   const [visitValidateMessage, setVisitValidateMessage] = useState('')
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // validation for confirmed data
     if (!confirmedDate) {
       setConfirmedDateValidateMessage('Please pick a confirmed date')
@@ -33,8 +33,8 @@ function SelfReport({ addConfirmedDate, resetOnSelfReportSubmit, visits, addSelf
       addConfirmedDate(confirmedDate)
       // send the object to the server
 
-      addSelfReportCase(store.getState().selfReport)
-
+      await addSelfReportCase(store.getState().selfReport)
+      fetchReportCases()
       // reset things
       setConfirmedDate(null)
       setConfirmedDateValidateMessage('')
@@ -89,4 +89,4 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, { getVisits, addConfirmedDate, resetOnSelfReportSubmit,
-    addSelfReportCase })(SelfReport)
+    addSelfReportCase, fetchReportCases })(SelfReport)

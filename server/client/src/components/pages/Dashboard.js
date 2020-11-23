@@ -4,11 +4,12 @@ import { Timeline } from 'antd';
 import TimelineItem from '../reportcase/TimelineItem';
 import CanadaStatistics from '../statistics/CanadaStatistics';
 import ProvinceStatistics from '../statistics/ProvinceStatistics';
-import { useSelector } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react';
+import { fetchReportCases } from '../../redux/actions/visitsActions'
 
 
-function Dashboard() {
+function Dashboard({ fetchReportCases }) {
 
 	const [events, setEvents] = useState([])
 	const reportCases = useSelector((state) => state.selfReport.reportCases)
@@ -24,13 +25,18 @@ function Dashboard() {
 	};
 
 	useEffect(() => {
+		console.log("test");
+		fetchReportCases()
+	}, []);
+
+	useEffect(() => {
 		if(reportCases) {
 			//sort the most recent first
 			reportCases.sort((case1, case2) => 
 				new Date(case2.confirmedDate) - new Date(case1.confirmedDate))
 			setEvents(reportCases)
 		}
-	}, [reportCases])
+	}, [reportCases]);
 	return (
 		<>
 			<Row>
@@ -51,4 +57,4 @@ function Dashboard() {
 	)
 }
 
-export default Dashboard;
+export default connect(null, { fetchReportCases }) (Dashboard);

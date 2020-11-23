@@ -59,10 +59,9 @@ export function ProvinceStatistics({ fetchProvinceStatistic }) {
 		const getCurrentLocation = async () => {
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(async ({coords: {longitude, latitude}}) => {
-          console.log();
         const res = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${process.env.REACT_APP_GOOGLE_API_KEY}`)
         const { results } = res.data
-        const provinces = results.filter((addressRes) => addressRes.types[0] == "administrative_area_level_1")
+        const provinces = results.filter((addressRes) => addressRes.types[0] === "administrative_area_level_1")
         setCurrentProvince(provinces[0].address_components[0].short_name)
        }) 
       }

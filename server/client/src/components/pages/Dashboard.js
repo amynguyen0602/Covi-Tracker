@@ -4,12 +4,11 @@ import { Timeline } from 'antd';
 import TimelineItem from '../reportcase/TimelineItem';
 import CanadaStatistics from '../statistics/CanadaStatistics';
 import ProvinceStatistics from '../statistics/ProvinceStatistics';
-import { connect, useSelector } from 'react-redux'
-import { fetchReportCases } from '../../redux/actions/visitsActions'
+import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react';
 
 
-function Dashboard({ fetchReportCases }) {
+function Dashboard() {
 
 	const [events, setEvents] = useState([])
 	const reportCases = useSelector((state) => state.selfReport.reportCases)
@@ -23,9 +22,6 @@ function Dashboard({ fetchReportCases }) {
 			);
 		});
 	};
-	useEffect(() => {
-		fetchReportCases()
-	}, [])
 
 	useEffect(() => {
 		if(reportCases) {
@@ -55,4 +51,4 @@ function Dashboard({ fetchReportCases }) {
 	)
 }
 
-export default connect(null, { fetchReportCases }) (Dashboard);
+export default Dashboard;

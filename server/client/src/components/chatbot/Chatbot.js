@@ -32,8 +32,9 @@ export class Chatbot extends Component {
 	}
 
 	async bot_text(text) {
+		var says = {}
 		if(isNaN(text)) {
-			var says = {
+			says = {
 				speaks: 'user',
 				msg: {
 					text: {
@@ -42,7 +43,7 @@ export class Chatbot extends Component {
 				},
 			}
 		} else {
-			var says = {
+			says = {
 				speaks: 'user',
 				msg: {
 					text: {

@@ -21,11 +21,6 @@ function Navbar({ location, fetchReportCases }) {
 		  }
 	}, [])
 
-	
-	useEffect(() => {
-		fetchReportCases()
-	}, [])
-
 	useEffect(() => {
 		const { latitude, longitude } = currentLocation
 		if(currentLocation) {

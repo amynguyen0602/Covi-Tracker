@@ -1,5 +1,6 @@
 const Visit = require('../models/Visit');
 const ReportCase = require('../models/ReportCase');
+const https = require('https');
 
 module.exports = (app) => {
   app.post('/api/self_report', async (req, res) => {
@@ -37,5 +38,13 @@ module.exports = (app) => {
       return (today - confirmedDate <= 14)
     })
     res.send(reportCasesRecent)
+  })
+
+  app.get('/api/summary', (req, res) => {
+      https.get('https://api.covid19tracker.ca/summary', response => {
+        response.on("data", d => {
+          res.send(d)
+      })
+    }) 
   })
 }

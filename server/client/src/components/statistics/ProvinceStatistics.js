@@ -14,12 +14,12 @@ export function ProvinceStatistics({ fetchProvinceStatistic }) {
 
   useEffect(() => {
     if(currentProvince)
-      fetchProvinceStatistic(currentProvince)
+      fetchProvinceStatistic('BC')
   }, [currentProvince])
 
   useEffect(() => {
     async function fetchData() {
-      const res = await axios.get('https://api.covid19tracker.ca/provinces')
+      const res = await axios.get('/api/provinces')
       setProvinces(res.data)
     }
     fetchData()

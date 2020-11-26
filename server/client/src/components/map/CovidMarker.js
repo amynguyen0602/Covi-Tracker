@@ -7,14 +7,13 @@ const CovidMarker = ({ show, place }) => {
     position: 'absolute',
     top: '50%',
     left: '50%',
-    width: '18px',
-    height: '18px',
-    backgroundColor: '#000',
+    width: '20px',
+    height: '20px',
     border: '2px solid #fff',
     borderRadius: '100%',
     userSelect: 'none',
     transform: 'translate(-50%, -50%)',
-    backgroundColor: 'purple',
+    backgroundColor: 'red',
     cursor: 'pointer',
   }
 

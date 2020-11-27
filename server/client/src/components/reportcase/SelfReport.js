@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { DatePicker, Row, Col, Button } from 'antd'
-import { getVisits, addConfirmedDate, resetOnSelfReportSubmit, addSelfReportCase, fetchReportCases } from '../../redux/actions/visitsActions'
+import {
+  getVisits,
+  addConfirmedDate,
+  resetOnSelfReportSubmit,
+  addSelfReportCase,
+} from '../../redux/actions/visitsActions'
 import store from '../../redux/store'
 import VisitForm from './VisitForm'
 
@@ -88,5 +93,6 @@ const mapStateToProps = (state) => {
   return { visits: state.selfReport.visits }
 }
 
-export default connect(mapStateToProps, { getVisits, addConfirmedDate, resetOnSelfReportSubmit,
-    addSelfReportCase, fetchReportCases })(SelfReport)
+export default connect(mapStateToProps, { getVisits, addConfirmedDate, resetOnSelfReportSubmit, addSelfReportCase })(
+  SelfReport
+)

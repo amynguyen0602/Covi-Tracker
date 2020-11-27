@@ -7,7 +7,7 @@ import CovidMarker from './CovidMarker'
 
 const { Search } = Input
 
-function Map({ fetchReportCases, reportCases, state }) {
+function Map({ fetchReportCases, reportCases, state, match: {params} }) {
   const [visits, setVisits] = useState({})
   const [currentGeoLocation, setCurrentGeoLocation] = useState({ lat: 49.246292, lng: -123.116226 })
   useEffect(() => {
@@ -27,15 +27,25 @@ function Map({ fetchReportCases, reportCases, state }) {
   }, [reportCases])
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
+    const setCurrentLocation = () => {
+      if(Object.keys(params).length !== 0) {
         setCurrentGeoLocation({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
+          lat: Number(params.latitude),
+          lng: Number(params.longitude),
         })
-      })
+      } else {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((position) => {
+            setCurrentGeoLocation({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            })
+          })
+        }
+      }
     }
-  }, [currentGeoLocation])
+    setCurrentLocation()
+  }, [params])
 
   const handleSearch = () => {
     console.log('search button clicked')

@@ -8,25 +8,10 @@ import CovidMarker from './CovidMarker'
 const { Search } = Input
 
 function Map({ fetchReportCases, reportCases, state }) {
-  // const reportCases = useSelector((state) => state.selfReport.reportCases)
-  // const [reportCases, setReportCases] = useState([])
-
   const [visits, setVisits] = useState({})
   const [currentGeoLocation, setCurrentGeoLocation] = useState({ lat: 49.246292, lng: -123.116226 })
   useEffect(() => {
     fetchReportCases()
-    //   let visitsArr = []
-    //   if (reportCases) {
-    //     console.log(visits)
-    //     reportCases.map((report) => {
-    //       report.visits.map((visit) => {
-    //         visitsArr.push({ ...visit, show: false })
-    //       })
-    //     })
-    //     setVisits(visitsArr)
-    //   }
-    // }
-    // asyncHelper()
   }, [])
 
   useEffect(() => {
@@ -38,7 +23,6 @@ function Map({ fetchReportCases, reportCases, state }) {
         })
       })
       setVisits(visitsMap)
-      console.log(visitsMap)
     }
   }, [reportCases])
 
@@ -53,43 +37,9 @@ function Map({ fetchReportCases, reportCases, state }) {
     }
   }, [currentGeoLocation])
 
-  // let visits = []
-  // if (reportCases) {
-  //   reportCases.map((report) => {
-  //     report.visits.map((visit) => {
-  //       visit = { ...visit, show: false }
-  //       visits.push(visit)
-  //     })
-  //   })
-  // }
-
-  // const [visits, setVisits] = useState([])
-
-  // useEffect(() => {
-  //   console.log('this use effect')
-  //   if (visitsArray.length > 0) {
-  //     console.log('this use effect arr>0')
-
-  //     setVisits(visitsArray)
-  //   }
-  // }, [])
-
   const handleSearch = () => {
     console.log('search button clicked')
   }
-
-  // const [place, setPlace] = useState({
-  //   id: 1,
-  //   name: 'Anson',
-  //   formatted_address: 'Anson address',
-  //   rating: 5,
-  //   types: [],
-  //   price_level: 15,
-  //   opening_hours: {
-  //     open_now: true,
-  //   },
-  //   show: false,
-  // })
 
   // onChildClick callback can take two arguments: key and childProps
   const handleChildMouseHover = (key) => {
@@ -117,8 +67,6 @@ function Map({ fetchReportCases, reportCases, state }) {
           onChildMouseEnter={handleChildMouseHover}
           onChildMouseLeave={handleChildMouseHover}
         >
-          {/* <CovidMarker key={place.id} lat={49.246292} lng={-123.116226} show={place.show} place={place} /> */}
-
           {Object.values(visits)?.map((visit) => {
             return <CovidMarker key={visit._id} lat={visit.lat} lng={visit.lng} show={visit.show} place={visit} />
           })}

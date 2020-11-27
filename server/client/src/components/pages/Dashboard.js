@@ -5,8 +5,8 @@ import TimelineItem from '../reportcase/TimelineItem';
 import CanadaStatistics from '../statistics/CanadaStatistics';
 import ProvinceStatistics from '../statistics/ProvinceStatistics';
 import { connect, useSelector } from 'react-redux'
-import { fetchReportCases } from '../../redux/actions/visitsActions'
 import { useEffect, useState } from 'react';
+import { fetchReportCases } from '../../redux/actions/visitsActions'
 
 
 function Dashboard({ fetchReportCases }) {
@@ -23,9 +23,10 @@ function Dashboard({ fetchReportCases }) {
 			);
 		});
 	};
+
 	useEffect(() => {
 		fetchReportCases()
-	}, [])
+	}, []);
 
 	useEffect(() => {
 		if(reportCases) {
@@ -34,7 +35,7 @@ function Dashboard({ fetchReportCases }) {
 				new Date(case2.confirmedDate) - new Date(case1.confirmedDate))
 			setEvents(reportCases)
 		}
-	}, [reportCases])
+	}, [reportCases]);
 	return (
 		<>
 			<Row>

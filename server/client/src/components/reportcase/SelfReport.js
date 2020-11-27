@@ -16,14 +16,14 @@ const validationWarning = {
   paddingLeft: 2,
 }
 
-function SelfReport({ addConfirmedDate, resetOnSelfReportSubmit, visits, addSelfReportCase }) {
+function SelfReport({ addConfirmedDate, resetOnSelfReportSubmit, visits, addSelfReportCase, fetchReportCases }) {
   console.log(visits)
   // const visits = useSelector((state) => state.selfReport.visits)
   const [confirmedDate, setConfirmedDate] = useState()
   const [confirmedDateValidateMessage, setConfirmedDateValidateMessage] = useState('')
   const [visitValidateMessage, setVisitValidateMessage] = useState('')
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // validation for confirmed data
     if (!confirmedDate) {
       setConfirmedDateValidateMessage('Please pick a confirmed date')
@@ -38,8 +38,8 @@ function SelfReport({ addConfirmedDate, resetOnSelfReportSubmit, visits, addSelf
       addConfirmedDate(confirmedDate)
       // send the object to the server
 
-      addSelfReportCase(store.getState().selfReport)
-
+      await addSelfReportCase(store.getState().selfReport)
+      fetchReportCases()
       // reset things
       setConfirmedDate(null)
       setConfirmedDateValidateMessage('')

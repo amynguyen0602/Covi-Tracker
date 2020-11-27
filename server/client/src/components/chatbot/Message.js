@@ -5,7 +5,7 @@ import styles from '../../styles/styles'
 function Message(props) {
 	return (
 		<>
-			<Row>
+			{props.text && <Row>
 				{props.speaks === 'bot' ? (
 					<Col span={24}>
 						<Typography type="primary" style={styles.botSpeak}>
@@ -19,7 +19,7 @@ function Message(props) {
 						</Typography>
 					</Col>
 				)}
-			</Row>
+			</Row>}
 		</>
 	);
 }

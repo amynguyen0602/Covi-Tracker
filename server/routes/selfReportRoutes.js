@@ -1,5 +1,6 @@
 const Visit = require('../models/Visit');
 const ReportCase = require('../models/ReportCase');
+const https = require('https');
 
 module.exports = (app) => {
   app.post('/api/self_report', async (req, res) => {
@@ -14,7 +15,7 @@ module.exports = (app) => {
     await visits.forEach(async visit => {
         const placeDetails = visit.place.split(",")
         const country = placeDetails[placeDetails.length - 1]
-        const province = placeDetails[placeDetails.length - 2]
+        const province = placeDetails[placeDetails.length - 2].trim().split(' ')[0]
         const city = placeDetails[placeDetails.length - 3]
         visit.country = country
         visit.province = province
@@ -37,5 +38,13 @@ module.exports = (app) => {
       return (today - confirmedDate <= 14)
     })
     res.send(reportCasesRecent)
+  })
+
+  app.get('/api/summary', (req, res) => {
+      https.get('https://api.covid19tracker.ca/summary', response => {
+        response.on("data", d => {
+          res.send(d)
+      })
+    }) 
   })
 }

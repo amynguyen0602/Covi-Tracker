@@ -17,13 +17,12 @@ function TimelineItem({ event }) {
 		return (
 			<p key={place._id}>
 				{moment(place.date).format("DD-MMM-YYYY")} {moment(place.time).format("hh:MM A")}{' '}
-				<Link to="/map">
+				<Link to={`/map/${place.lat}/${place.lng}`}>
 					{place.place}
 				</Link>
 			</p>
 		);
 	});
-
 	const tags = event.visits.map((place) => {
 		return place.city;
 	});
@@ -59,7 +58,7 @@ function TimelineItem({ event }) {
 				title={province}
 				trigger="hover"
 			>
-				<Button type="primary" icon={<MoreOutlined />} style={{ float: 'right' }}>
+				<Button shape="round" type="secondary" icon={<MoreOutlined />} style={{ float: 'right' }}>
 					More
 				</Button>
 			</Popover>

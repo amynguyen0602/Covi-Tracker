@@ -6,6 +6,7 @@ import {
   addConfirmedDate,
   resetOnSelfReportSubmit,
   addSelfReportCase,
+  fetchReportCases
 } from '../../redux/actions/visitsActions'
 import store from '../../redux/store'
 import VisitForm from './VisitForm'
@@ -93,6 +94,6 @@ const mapStateToProps = (state) => {
   return { visits: state.selfReport.visits }
 }
 
-export default connect(mapStateToProps, { getVisits, addConfirmedDate, resetOnSelfReportSubmit, addSelfReportCase })(
+export default connect(mapStateToProps, { getVisits, addConfirmedDate, resetOnSelfReportSubmit, addSelfReportCase, fetchReportCases })(
   SelfReport
 )

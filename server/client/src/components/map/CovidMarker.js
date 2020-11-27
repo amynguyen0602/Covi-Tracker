@@ -4,17 +4,15 @@ import InfoWindow from './InfoWindow'
 // Marker component
 const CovidMarker = ({ show, place }) => {
   const markerStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
     width: '15px',
     height: '15px',
-    border: '2px solid #fff',
-    borderRadius: '100%',
-    userSelect: 'none',
-    transform: 'translate(-50%, -50%)',
-    backgroundColor: 'red',
-    cursor: 'pointer',
+    borderRadius: '50% 50% 50% 0',
+    background: '#fc3d03',
+    position: 'absolute',
+    transform: 'rotate(-45deg)',
+    left: '50%',
+    top: '50%',
+    margin: '-20px 0 0 -20px',
   }
 
   return (

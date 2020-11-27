@@ -70,7 +70,7 @@ function Navbar({ location, fetchReportCases }) {
 					Self Report
 					<Link to="/selfReport" />
 				</Menu.Item>
-				<Menu.Item key="/map" style={styles.navRight}>
+				<Menu.Item key={location.pathname.includes("/map") ? location.pathname : "/map"} style={styles.navRight}>
 					Map
 					<Link to="/map" />
 				</Menu.Item>

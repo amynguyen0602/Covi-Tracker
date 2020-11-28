@@ -42,7 +42,7 @@ function Map({ fetchReportCases, reportCases, state }) {
 
   // onChildClick callback can take two arguments: key and childProps
   const handleChildMouseHover = (key) => {
-    if (visits) {
+    if (visits && !Number.isInteger(key)) {
       setVisits({ ...visits, [key]: { ...visits[key], show: !visits[key].show } })
     }
   }
@@ -54,7 +54,7 @@ function Map({ fetchReportCases, reportCases, state }) {
     mapApi: null,
   })
   const [selectedPlace, setSelectedPlace] = useState({
-    name: '',
+    place: '',
     latitude: null,
     longitude: null,
   })
@@ -91,14 +91,11 @@ function Map({ fetchReportCases, reportCases, state }) {
     debounce: 300,
   })
 
-  // useEffect(() => {
-  //   setValue(defaultData && defaultData.place ? defaultData.place : null)
-  // }, [defaultData])
-
   const handleInput = (e) => {
     // Update the keyword of the input element
     setValue(e.target.value)
     console.log(`handleInput value: ${value}`)
+    setCurrentGeoLocation({ lat: selectedPlace.latitude, lng: selectedPlace.longitude })
   }
 
   const handleSelect = ({ description }) => () => {
@@ -111,10 +108,11 @@ function Map({ fetchReportCases, reportCases, state }) {
       .then(({ lat, lng }) => {
         console.log(lat, lng, description)
         setSelectedPlace({
-          name: description,
+          place: description,
           latitude: lat,
           longitude: lng,
         })
+        setCurrentGeoLocation({ lat: selectedPlace.latitude, lng: selectedPlace.longitude })
       })
       .catch((error) => {
         console.log('😱 Error: ', error)
@@ -127,7 +125,7 @@ function Map({ fetchReportCases, reportCases, state }) {
     // the searched suggestions by calling this method
     clearSuggestions()
     setSelectedPlace(selectedPlace ? selectedPlace : '')
-    setValue(selectedPlace ? selectedPlace.name : '')
+    setValue(selectedPlace ? selectedPlace.place : '')
   })
 
   const renderSuggestions = () =>
@@ -173,8 +171,29 @@ function Map({ fetchReportCases, reportCases, state }) {
           onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
         >
           {Object.values(visits)?.map((visit) => {
-            return <CovidMarker key={visit._id} lat={visit.lat} lng={visit.lng} show={visit.show} place={visit} />
+            return (
+              <CovidMarker
+                key={visit._id}
+                lat={visit.lat}
+                lng={visit.lng}
+                show={visit.show}
+                place={visit}
+                color="#fc3d03"
+                size="15px"
+              />
+            )
           })}
+
+          {selectedPlace && (
+            <CovidMarker
+              lat={selectedPlace.latitude}
+              lng={selectedPlace.longitude}
+              show={selectedPlace.show}
+              place={selectedPlace}
+              color="#7134eb"
+              size="25px"
+            />
+          )}
         </GoogleMapReact>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import GoogleMapReact from 'google-map-react'
-import { Input, List } from 'antd'
+import { Input, List, Switch } from 'antd'
 import { connect, useSelector } from 'react-redux'
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete'
 import useOnclickOutside from 'react-cool-onclickoutside'
@@ -46,6 +46,9 @@ function Map({ fetchReportCases, reportCases, state }) {
       setVisits({ ...visits, [key]: { ...visits[key], show: !visits[key].show } })
     }
   }
+
+  // clinic button on
+  // clinic api: https://developers.clinia.com/api-reference/covid-api/search
 
   /* ==================== Search Functions  ==================== */
   const [mapApi, setMapApi] = useState({
@@ -121,6 +124,7 @@ function Map({ fetchReportCases, reportCases, state }) {
   }
 
   const ref = useOnclickOutside(() => {
+    console.log('useOnlickOutside')
     // When user clicks outside of the component, we can dismiss
     // the searched suggestions by calling this method
     clearSuggestions()
@@ -157,9 +161,10 @@ function Map({ fetchReportCases, reportCases, state }) {
           size="large"
           style={{ marginBottom: '20px' }}
         />
+        <Switch />
         {status === 'OK' && <ul>{renderSuggestions()}</ul>}
       </div>
-      <div style={{ height: '80vh', width: '80vw' }}>
+      <div style={{ height: '80vh', width: '80vw' }} className="ignore-onclickoutside">
         {/* 'calc(100vw - 100px)' */}
         <GoogleMapReact
           defaultCenter={currentGeoLocation}

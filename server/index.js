@@ -13,6 +13,7 @@ app.use(cors())
 require('./routes/chatbotRoutes')(app)
 require('./routes/selfReportRoutes')(app)
 require('./routes/statisticRoutes')(app)
+require('./routes/testingCentreRoutes')(app)
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT)

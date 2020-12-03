@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import GoogleMapReact from 'google-map-react'
-import { Input, List, Switch } from 'antd'
+import { Input, List, Switch, Col, Row, Space } from 'antd'
 import { connect, useSelector } from 'react-redux'
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete'
 import useOnclickOutside from 'react-cool-onclickoutside'
@@ -48,7 +48,7 @@ function Map({ fetchReportCases, reportCases, state }) {
   }
 
   // clinic button on
-  // clinic api: https://developers.clinia.com/api-reference/covid-api/search
+  // clinic api: https://resources-covid19canada.hub.arcgis.com/datasets/exchange::covid19-testing-centres-in-canada-1/geoservice?geometry=168.780%2C42.488%2C-12.714%2C61.143
 
   /* ==================== Search Functions  ==================== */
   const [mapApi, setMapApi] = useState({
@@ -149,58 +149,127 @@ function Map({ fetchReportCases, reportCases, state }) {
   // found better documentation
   // https://github.com/google-map-react/google-map-react/blob/master/API.md
   return (
-    <div style={{ width: '80vw', margin: '0px auto' }}>
-      <div ref={ref}>
-        <Search
-          placeholder="input search text"
-          onSearch={handleSearch}
-          onChange={handleInput}
-          disabled={!ready}
-          value={value}
-          enterButton
-          size="large"
-          style={{ marginBottom: '20px' }}
-        />
-        <Switch />
-        {status === 'OK' && <ul>{renderSuggestions()}</ul>}
-      </div>
-      <div style={{ height: '80vh', width: '80vw' }} className="ignore-onclickoutside">
-        {/* 'calc(100vw - 100px)' */}
-        <GoogleMapReact
-          defaultCenter={currentGeoLocation}
-          center={currentGeoLocation}
-          defaultZoom={14}
-          onChildMouseEnter={handleChildMouseHover}
-          onChildMouseLeave={handleChildMouseHover}
-          yesIWantToUseGoogleMapApiInternals
-          onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
-        >
-          {Object.values(visits)?.map((visit) => {
-            return (
-              <CovidMarker
-                key={visit._id}
-                lat={visit.lat}
-                lng={visit.lng}
-                show={visit.show}
-                place={visit}
-                color="#fc3d03"
-                size="15px"
-              />
-            )
-          })}
+    // <div style={{ width: '80vw', margin: '0px auto' }}>
+    //   <div ref={ref}>
+    //     <Search
+    //       placeholder="input search text"
+    //       onSearch={handleSearch}
+    //       onChange={handleInput}
+    //       disabled={!ready}
+    //       value={value}
+    //       enterButton
+    //       size="large"
+    //       style={{ marginBottom: '20px' }}
+    //     />
+    //     <Switch checkedChildren="Testing Centre" unCheckedChildren="Testing Centre" />
+    //     {status === 'OK' && <ul>{renderSuggestions()}</ul>}
+    //   </div>
+    //   <div style={{ height: '80vh', width: '80vw' }} className="ignore-onclickoutside">
+    //     {/* 'calc(100vw - 100px)' */}
+    //     <GoogleMapReact
+    //       defaultCenter={currentGeoLocation}
+    //       center={currentGeoLocation}
+    //       defaultZoom={14}
+    //       onChildMouseEnter={handleChildMouseHover}
+    //       onChildMouseLeave={handleChildMouseHover}
+    //       yesIWantToUseGoogleMapApiInternals
+    //       onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
+    //     >
+    //       {Object.values(visits)?.map((visit) => {
+    //         return (
+    //           <CovidMarker
+    //             key={visit._id}
+    //             lat={visit.lat}
+    //             lng={visit.lng}
+    //             show={visit.show}
+    //             place={visit}
+    //             color="#fc3d03"
+    //             size="15px"
+    //           />
+    //         )
+    //       })}
 
-          {selectedPlace && (
-            <CovidMarker
-              lat={selectedPlace.latitude}
-              lng={selectedPlace.longitude}
-              show={selectedPlace.show}
-              place={selectedPlace}
-              color="#7134eb"
-              size="25px"
-            />
-          )}
-        </GoogleMapReact>
-      </div>
+    //       {selectedPlace && (
+    //         <CovidMarker
+    //           lat={selectedPlace.latitude}
+    //           lng={selectedPlace.longitude}
+    //           show={selectedPlace.show}
+    //           place={selectedPlace}
+    //           color="#7134eb"
+    //           size="25px"
+    //         />
+    //       )}
+    //     </GoogleMapReact>
+    //   </div>
+    // </div>
+
+    <div>
+
+      <Row ref={ref}>
+        <Col span={2}></Col>
+        <Col span={20}>
+          <Search
+            placeholder="input search text"
+            onSearch={handleSearch}
+            onChange={handleInput}
+            disabled={!ready}
+            value={value}
+            enterButton
+            size="large"
+            style={{ marginBottom: '20px' }}
+          />
+          {status === 'OK' && <ul>{renderSuggestions()}</ul>}
+        </Col>
+        <Col span={2} >
+            <div style={{ fontSize: 'small', marginLeft: '2px', marginTop: '2px'}}>
+              Testing Centre <Switch  checkedChildren="" unCheckedChildren="" />  
+            </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={2}></Col>
+        <Col span={20} style={{ height: '80vh'}}>
+          <GoogleMapReact
+            defaultCenter={currentGeoLocation}
+            center={currentGeoLocation}
+            defaultZoom={14}
+            onChildMouseEnter={handleChildMouseHover}
+            onChildMouseLeave={handleChildMouseHover}
+            yesIWantToUseGoogleMapApiInternals
+            onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
+          >
+            {Object.values(visits)?.map((visit) => {
+              return (
+                <CovidMarker
+                  key={visit._id}
+                  lat={visit.lat}
+                  lng={visit.lng}
+                  show={visit.show}
+                  place={visit}
+                  color="#fc3d03"
+                  size="15px"
+                />
+              )
+            })}
+
+            {selectedPlace && (
+              <CovidMarker
+                lat={selectedPlace.latitude}
+                lng={selectedPlace.longitude}
+                show={selectedPlace.show}
+                place={selectedPlace}
+                color="#7134eb"
+                size="25px"
+              />
+            )}
+          </GoogleMapReact>
+        </Col>
+        <Col span={2}></Col>
+
+      </Row>
+      {/* <div style={{ height: '80vh', width: '80vw' }} className="ignore-onclickoutside">
+         'calc(100vw - 100px)' 
+      </div> */}
     </div>
   )
 }

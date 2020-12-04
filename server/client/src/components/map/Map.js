@@ -5,6 +5,7 @@ import { connect, useSelector } from 'react-redux'
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete'
 import useOnclickOutside from 'react-cool-onclickoutside'
 import { fetchReportCases } from '../../redux/actions/visitsActions'
+import { fetchTestingCentre } from '../../redux/actions/mapActions'
 import CovidMarker from './CovidMarker'
 
 const { Search } = Input
@@ -204,7 +205,6 @@ function Map({ fetchReportCases, reportCases, state }) {
     // </div>
 
     <div>
-
       <Row ref={ref}>
         <Col span={2}></Col>
         <Col span={20}>
@@ -220,15 +220,15 @@ function Map({ fetchReportCases, reportCases, state }) {
           />
           {status === 'OK' && <ul>{renderSuggestions()}</ul>}
         </Col>
-        <Col span={2} >
-            <div style={{ fontSize: 'small', marginLeft: '2px', marginTop: '2px'}}>
-              Testing Centre <Switch  checkedChildren="" unCheckedChildren="" />  
-            </div>
+        <Col span={2}>
+          <div style={{ fontSize: 'small', marginLeft: '2px', marginTop: '2px' }}>
+            Testing Centre <Switch checkedChildren="" unCheckedChildren="" />
+          </div>
         </Col>
       </Row>
       <Row>
         <Col span={2}></Col>
-        <Col span={20} style={{ height: '80vh'}}>
+        <Col span={20} style={{ height: '80vh' }}>
           <GoogleMapReact
             defaultCenter={currentGeoLocation}
             center={currentGeoLocation}
@@ -265,7 +265,6 @@ function Map({ fetchReportCases, reportCases, state }) {
           </GoogleMapReact>
         </Col>
         <Col span={2}></Col>
-
       </Row>
       {/* <div style={{ height: '80vh', width: '80vw' }} className="ignore-onclickoutside">
          'calc(100vw - 100px)' 
@@ -278,4 +277,4 @@ const mapStateToProps = (state) => {
   return { state: state, reportCases: state.selfReport.reportCases }
 }
 
-export default connect(mapStateToProps, { fetchReportCases })(Map)
+export default connect(mapStateToProps, { fetchReportCases, fetchTestingCentre })(Map)

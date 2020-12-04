@@ -13,14 +13,15 @@ const { Search } = Input
 function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres, state }) {
   const [visits, setVisits] = useState({})
   const [currentGeoLocation, setCurrentGeoLocation] = useState({ lat: 49.246292, lng: -123.116226 })
-  const [testingCentresState, setTestingCentresState] = useState([])
-  const [switchState, setSwitchSate] = useState(false)
+  const [testingCentresState, setTestingCentresState] = useState({})
+  const [switchState, setSwitchSate] = useState(true)
 
   useEffect(() => {
     fetchReportCases()
     fetchTestingCentre()
   }, [])
 
+  // store visits
   useEffect(() => {
     let visitsMap = {}
     if (reportCases) {
@@ -36,8 +37,26 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
   // store testing centres
   useEffect(() => {
     console.log('store testing centres')
+    let testingCentreMap = {}
     if (testingCentres) {
-      setTestingCentresState(testingCentres)
+      testingCentres.map((centre) => {
+        testingCentreMap = {
+          ...testingCentreMap,
+          [centre.attributes.GlobalID]: {
+            city: centre.attributes.USER_City,
+            country: 'Canada',
+            date: '',
+            lat: centre.geometry.y,
+            lng: centre.geometry.x,
+            place: centre.attributes.USER_Name,
+            province: centre.attributes.USER_Prov,
+            show: false,
+            time: '',
+            _id: centre.attributes.GlobalID,
+          },
+        }
+      })
+      setTestingCentresState(testingCentreMap)
     }
   }, [testingCentres])
 
@@ -54,8 +73,18 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
 
   // onChildClick callback can take two arguments: key and childProps
   const handleChildMouseHover = (key) => {
-    if (visits && !Number.isInteger(key)) {
+    if (visits && !Number.isInteger(key) && !key.includes('-')) {
+      console.log('key - include false')
       setVisits({ ...visits, [key]: { ...visits[key], show: !visits[key].show } })
+    }
+
+    if (switchState && testingCentresState && !Number.isInteger(key) && key.includes('-')) {
+      console.log('key - include true')
+
+      setTestingCentresState({
+        ...testingCentresState,
+        [key]: { ...testingCentresState[key], show: !testingCentresState[key].show },
+      })
     }
   }
 
@@ -280,13 +309,14 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
             )}
 
             {/* switchState && */}
-            {testingCentresState.map((centre) => {
+            {Object.values(testingCentresState)?.map((centre) => {
               return (
                 <CovidMarker
-                  key={centre.attributes.OBJECTID}
-                  lat={centre.geometry.y}
-                  lng={centre.geometry.x}
-                  show={false}
+                  key={centre._id}
+                  lat={centre.lat}
+                  lng={centre.lng}
+                  show={centre.show}
+                  place={centre}
                   color="#79d4ce"
                   size="15px"
                 />

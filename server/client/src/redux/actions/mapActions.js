@@ -5,6 +5,6 @@ export const fetchTestingCentre = () => async (dispatch) => {
   const res = await axios.get('/api/testingcentre')
   dispatch({
     type: FETCH_TESTING_CENTRE,
-    payload: res.data,
+    payload: res.data.features,
   })
 }

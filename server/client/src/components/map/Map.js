@@ -10,12 +10,15 @@ import CovidMarker from './CovidMarker'
 
 const { Search } = Input
 
-function Map({ fetchReportCases, reportCases, state }) {
+function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres, state }) {
   const [visits, setVisits] = useState({})
   const [currentGeoLocation, setCurrentGeoLocation] = useState({ lat: 49.246292, lng: -123.116226 })
+  const [testingCentresState, setTestingCentresState] = useState([])
+  const [switchState, setSwitchSate] = useState(false)
 
   useEffect(() => {
     fetchReportCases()
+    fetchTestingCentre()
   }, [])
 
   useEffect(() => {
@@ -29,6 +32,14 @@ function Map({ fetchReportCases, reportCases, state }) {
       setVisits(visitsMap)
     }
   }, [reportCases])
+
+  // store testing centres
+  useEffect(() => {
+    console.log('store testing centres')
+    if (testingCentres) {
+      setTestingCentresState(testingCentres)
+    }
+  }, [testingCentres])
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -147,6 +158,11 @@ function Map({ fetchReportCases, reportCases, state }) {
     })
   /* ==================== End of AutoComplete ========================== */
 
+  // Handle toggle switch on and off
+  const handleSwitch = (checked) => {
+    setSwitchSate(checked)
+  }
+
   // found better documentation
   // https://github.com/google-map-react/google-map-react/blob/master/API.md
   return (
@@ -222,7 +238,7 @@ function Map({ fetchReportCases, reportCases, state }) {
         </Col>
         <Col span={2}>
           <div style={{ fontSize: 'small', marginLeft: '2px', marginTop: '2px' }}>
-            Testing Centre <Switch checkedChildren="" unCheckedChildren="" />
+            Testing Centre <Switch checkedChildren="" unCheckedChildren="" onChange={handleSwitch} />
           </div>
         </Col>
       </Row>
@@ -262,6 +278,20 @@ function Map({ fetchReportCases, reportCases, state }) {
                 size="25px"
               />
             )}
+
+            {/* switchState && */}
+            {testingCentresState.map((centre) => {
+              return (
+                <CovidMarker
+                  key={centre.attributes.OBJECTID}
+                  lat={centre.geometry.y}
+                  lng={centre.geometry.x}
+                  show={false}
+                  color="#79d4ce"
+                  size="15px"
+                />
+              )
+            })}
           </GoogleMapReact>
         </Col>
         <Col span={2}></Col>
@@ -274,7 +304,7 @@ function Map({ fetchReportCases, reportCases, state }) {
 }
 
 const mapStateToProps = (state) => {
-  return { state: state, reportCases: state.selfReport.reportCases }
+  return { state: state, reportCases: state.selfReport.reportCases, testingCentres: state.maps.testingCentres }
 }
 
 export default connect(mapStateToProps, { fetchReportCases, fetchTestingCentre })(Map)

@@ -17,12 +17,16 @@ const InfoWindow = (props) => {
   }
 
   return (
-    <div style={infoWindowStyle}>
-      <div style={{ fontSize: 16 }}>{visit.place}</div>
-      <div style={{ fontSize: 14 }}></div>
-      <div style={{ fontSize: 14, color: 'grey' }}>{`${moment(visit.date).format('DD-MMM-YYYY')} ${moment(
-        visit.time
-      ).format('hh:MM A')}`}</div>
+    <div>
+      {visit && (
+        <div style={infoWindowStyle}>
+          <div style={{ fontSize: 16 }}>{visit.place}</div>
+          <div style={{ fontSize: 14 }}></div>
+          <div style={{ fontSize: 14, color: 'grey' }}>{`${moment(visit.date).format('DD-MMM-YYYY')} ${moment(
+            visit.time
+          ).format('hh:MM A')}`}</div>
+        </div>
+      )}
     </div>
   )
 }

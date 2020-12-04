@@ -14,7 +14,7 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
   const [visits, setVisits] = useState({})
   const [currentGeoLocation, setCurrentGeoLocation] = useState({ lat: 49.246292, lng: -123.116226 })
   const [testingCentresState, setTestingCentresState] = useState({})
-  const [switchState, setSwitchSate] = useState(true)
+  const [switchState, setSwitchSate] = useState(false)
 
   useEffect(() => {
     fetchReportCases()
@@ -36,7 +36,6 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
 
   // store testing centres
   useEffect(() => {
-    console.log('store testing centres')
     let testingCentreMap = {}
     if (testingCentres) {
       testingCentres.map((centre) => {
@@ -53,6 +52,7 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
             show: false,
             time: '',
             _id: centre.attributes.GlobalID,
+            testingCentre: true,
           },
         }
       })
@@ -74,13 +74,10 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
   // onChildClick callback can take two arguments: key and childProps
   const handleChildMouseHover = (key) => {
     if (visits && !Number.isInteger(key) && !key.includes('-')) {
-      console.log('key - include false')
       setVisits({ ...visits, [key]: { ...visits[key], show: !visits[key].show } })
     }
 
     if (switchState && testingCentresState && !Number.isInteger(key) && key.includes('-')) {
-      console.log('key - include true')
-
       setTestingCentresState({
         ...testingCentresState,
         [key]: { ...testingCentresState[key], show: !testingCentresState[key].show },
@@ -309,19 +306,20 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
             )}
 
             {/* switchState && */}
-            {Object.values(testingCentresState)?.map((centre) => {
-              return (
-                <CovidMarker
-                  key={centre._id}
-                  lat={centre.lat}
-                  lng={centre.lng}
-                  show={centre.show}
-                  place={centre}
-                  color="#79d4ce"
-                  size="15px"
-                />
-              )
-            })}
+            {switchState &&
+              Object.values(testingCentresState)?.map((centre) => {
+                return (
+                  <CovidMarker
+                    key={centre._id}
+                    lat={centre.lat}
+                    lng={centre.lng}
+                    show={centre.show}
+                    place={centre}
+                    color="#79d4ce"
+                    size="15px"
+                  />
+                )
+              })}
           </GoogleMapReact>
         </Col>
         <Col span={2}></Col>

@@ -104,9 +104,9 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
   //   console.log(selectedPlace)
   // }, [selectedPlace])
 
-  const handleSearch = (e) => {
-    console.log('search button clicked')
-  }
+  // const handleSearch = (e) => {
+  //   console.log('search button clicked')
+  // }
 
   const apiHasLoaded = (map, maps) => {
     setMapApi({
@@ -147,13 +147,12 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
     getGeocode({ address: description })
       .then((results) => getLatLng(results[0]))
       .then(({ lat, lng }) => {
-        console.log(lat, lng, description)
         setSelectedPlace({
           place: description,
           latitude: lat,
           longitude: lng,
         })
-        setCurrentGeoLocation({ lat: selectedPlace.latitude, lng: selectedPlace.longitude })
+        setCurrentGeoLocation({ lat: lat, lng: lng })
       })
       .catch((error) => {
         console.log('😱 Error: ', error)
@@ -250,9 +249,8 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
       <Row ref={ref}>
         <Col span={2}></Col>
         <Col span={20}>
-          <Search
+          <Input
             placeholder="input search text"
-            onSearch={handleSearch}
             onChange={handleInput}
             disabled={!ready}
             value={value}

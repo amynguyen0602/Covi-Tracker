@@ -100,14 +100,6 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
     longitude: null,
   })
 
-  // useEffect(() => {
-  //   console.log(selectedPlace)
-  // }, [selectedPlace])
-
-  // const handleSearch = (e) => {
-  //   console.log('search button clicked')
-  // }
-
   const apiHasLoaded = (map, maps) => {
     setMapApi({
       mapApiLoaded: true,
@@ -286,7 +278,7 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
                   lng={visit.lng}
                   show={visit.show}
                   place={visit}
-                  color="#fc3d03"
+                  color="#d1140a"
                   size="15px"
                 />
               )
@@ -298,7 +290,7 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
                 lng={selectedPlace.longitude}
                 show={selectedPlace.show}
                 place={selectedPlace}
-                color="#7134eb"
+                color="#fcad03"
                 size="25px"
               />
             )}
@@ -313,7 +305,7 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
                     lng={centre.lng}
                     show={centre.show}
                     place={centre}
-                    color="#79d4ce"
+                    color="#40918b"
                     size="15px"
                   />
                 )
@@ -323,7 +315,7 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
         <Col span={2}></Col>
       </Row>
       {/* <div style={{ height: '80vh', width: '80vw' }} className="ignore-onclickoutside">
-         'calc(100vw - 100px)' 
+         'calc(100vw - 100px)' #79d4ce
       </div> */}
     </div>
   )

@@ -5,17 +5,17 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #888;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
 .menu {
@@ -25,13 +25,11 @@
   width: 100%;
 }
 
-
 .chatbot {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
   overflow: auto;
 }
-
 
 .chatbot::-webkit-scrollbar {
   display: none;
@@ -46,4 +44,9 @@
 
 .map:hover {
   opacity: 0.7;
+}
+
+.marker:hover {
+  opacity: 0.7;
+  border: 3px solid;
 }

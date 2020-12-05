@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import GoogleMapReact from 'google-map-react'
-import { Input, List, Switch, Col, Row, Space } from 'antd'
+import { Input, List, Switch, Col, Row, Space, Tooltip } from 'antd'
 import { connect, useSelector } from 'react-redux'
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete'
 import useOnclickOutside from 'react-cool-onclickoutside'
 import { fetchReportCases } from '../../redux/actions/visitsActions'
 import { fetchTestingCentre } from '../../redux/actions/mapActions'
 import CovidMarker from './CovidMarker'
+import { MedicineBoxFilled } from '@ant-design/icons'
 
 const { Search } = Input
 
@@ -210,9 +211,6 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
           {status === 'OK' && <ul>{renderSuggestions()}</ul>}
         </Col>
         <Col span={2}>
-          <div style={{ fontSize: 'small', marginLeft: '2px', marginTop: '2px' }}>
-            Testing Centre <Switch checkedChildren="" unCheckedChildren="" onChange={handleSwitch} />
-          </div>
         </Col>
       </Row>
       <Row className="ignore-onclickoutside">
@@ -269,7 +267,13 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
               })}
           </GoogleMapReact>
         </Col>
-        <Col span={2}></Col>
+        <Col span={2}>
+        <div style={{ fontSize: 'small', marginLeft: '5px', marginTop: '2px' }}>
+            <Tooltip placement="topLeft" title="Testing Center">
+              <Switch checkedChildren={<MedicineBoxFilled />} unCheckedChildren={<MedicineBoxFilled />} onChange={handleSwitch} />
+            </Tooltip>
+          </div>
+        </Col>
       </Row>
     </div>
   )

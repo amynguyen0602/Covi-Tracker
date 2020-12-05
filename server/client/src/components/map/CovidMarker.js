@@ -29,7 +29,7 @@ const CovidMarker = ({ show, place, color, size }) => {
 
   return (
     <>
-      <div style={markerStyle} />
+      <div className = "marker" style={markerStyle} />
       {show && <InfoWindow visit={place} />}
     </>
   )

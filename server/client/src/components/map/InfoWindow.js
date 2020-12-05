@@ -19,9 +19,10 @@ const InfoWindow = (props) => {
   }
 
   return (
-    <Card style={{ width: 300, zIndex: 5 }}>
-      <div style={{ fontSize: 16 }}>
-        {visit.testingCentre && <MedicineBoxTwoTone twoToneColor="#14c929" />}&nbsp;
+    // <Card style={{ width: 300, zIndex: 5 }}>
+    <>
+      <div style={{ fontSize: 16}}>
+        {visit.testingCentre && <MedicineBoxTwoTone style={{ marginRight: '5px' }} twoToneColor="#14c929" />}
         {visit.place?.split(',')[0] ?? 'Testing Centre'}
       </div>
       <div style={{ fontSize: 14, color: '#adadad' }}>
@@ -32,13 +33,13 @@ const InfoWindow = (props) => {
       <div style={{ fontSize: 14, color: 'grey' }}>
         {visit.date && visit.time && (
           <>
-            <ExclamationCircleTwoTone twoToneColor="#de1818" />
-            &nbsp;
+            <ExclamationCircleTwoTone style={{ marginRight: '5px' }} twoToneColor="#de1818" />
             {moment(visit.date).format('MMM DD, YYYY')} {moment(visit.time).format('h:MM A')}
           </>
         )}
       </div>
-    </Card>
+      </>
+    /* </Card> */
   )
 }
 

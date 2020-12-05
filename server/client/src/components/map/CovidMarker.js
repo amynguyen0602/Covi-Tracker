@@ -1,8 +1,9 @@
+import { Popover } from 'antd'
 import React, { useEffect } from 'react'
 import InfoWindow from './InfoWindow'
 
 // Marker component
-const CovidMarker = ({ show, place, color, size }) => {
+const CovidMarker = ({ place, color, size }) => {
   // const markerStyle = {
   //   width: '15px',
   //   height: '15px',
@@ -29,8 +30,10 @@ const CovidMarker = ({ show, place, color, size }) => {
 
   return (
     <>
+    <Popover trigger="hover" content={<InfoWindow visit={place} />}>
       <div className = "marker" style={markerStyle} />
-      {show && <InfoWindow visit={place} />}
+    </Popover>
+      {/* {show && <InfoWindow visit={place} />} */}
     </>
   )
 }

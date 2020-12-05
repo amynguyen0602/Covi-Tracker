@@ -28,7 +28,7 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
     if (reportCases) {
       reportCases.map((report) => {
         report.visits.map((visit) => {
-          visitsMap = { ...visitsMap, [visit._id]: { ...visit, show: false } }
+          visitsMap = { ...visitsMap, [visit._id]: visit }
         })
       })
       setVisits(visitsMap)
@@ -50,7 +50,6 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
             lng: centre.geometry.x,
             place: centre.attributes.USER_Name,
             province: centre.attributes.USER_Prov,
-            show: false,
             time: '',
             _id: centre.attributes.GlobalID,
             testingCentre: true,
@@ -82,20 +81,6 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
     }
     setCurrentLocation()
   }, [params])
-
-  // onChildClick callback can take two arguments: key and childProps
-  const handleChildMouseHover = (key) => {
-    if (visits && !Number.isInteger(key) && !key.includes('-')) {
-      setVisits({ ...visits, [key]: { ...visits[key], show: !visits[key].show } })
-    }
-
-    if (switchState && testingCentresState && !Number.isInteger(key) && key.includes('-')) {
-      setTestingCentresState({
-        ...testingCentresState,
-        [key]: { ...testingCentresState[key], show: !testingCentresState[key].show },
-      })
-    }
-  }
 
   // clinic button on
   // clinic api: https://resources-covid19canada.hub.arcgis.com/datasets/exchange::covid19-testing-centres-in-canada-1/geoservice?geometry=168.780%2C42.488%2C-12.714%2C61.143
@@ -139,7 +124,6 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
   const handleInput = (e) => {
     // Update the keyword of the input element
     setValue(e.target.value)
-    console.log(`handleInput value: ${value}`)
     setCurrentGeoLocation({ lat: selectedPlace.latitude, lng: selectedPlace.longitude })
   }
 
@@ -165,7 +149,6 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
   }
 
   const ref = useOnclickOutside(() => {
-    console.log('useOnlickOutside')
     // When user clicks outside of the component, we can dismiss
     // the searched suggestions by calling this method
     clearSuggestions()
@@ -220,8 +203,6 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
             defaultCenter={currentGeoLocation}
             center={currentGeoLocation}
             defaultZoom={14}
-            onChildMouseEnter={handleChildMouseHover}
-            onChildMouseLeave={handleChildMouseHover}
             yesIWantToUseGoogleMapApiInternals
             onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
           >
@@ -231,7 +212,6 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
                   key={visit._id}
                   lat={visit.lat}
                   lng={visit.lng}
-                  show={visit.show}
                   place={visit}
                   color="#d1140a"
                   size="15px"
@@ -243,7 +223,6 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
               <CovidMarker
                 lat={selectedPlace.latitude}
                 lng={selectedPlace.longitude}
-                show={selectedPlace.show}
                 place={selectedPlace}
                 color="#fcad03"
                 size="25px"
@@ -258,7 +237,6 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
                     key={centre._id}
                     lat={centre.lat}
                     lng={centre.lng}
-                    show={centre.show}
                     place={centre}
                     color="#40918b"
                     size="15px"

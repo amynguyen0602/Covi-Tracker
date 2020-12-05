@@ -26,7 +26,8 @@ function App() {
       <React.Fragment>
         <div style={styles.body}>
           <Route exact path="/" component={Dashboard} />
-          <Route path="/map" component={Map} />
+          <Route path="/map/:latitude/:longitude" component={Map} />
+          <Route exact path="/map" component={Map} />
           <Route path="/selfReport" component={SelfReport} />
           <Navbar />
           {showchatIcon()}

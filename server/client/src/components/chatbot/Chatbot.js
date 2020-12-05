@@ -157,13 +157,13 @@ export class Chatbot extends Component {
 						</div>}
 					extra={<HeartFilled style={styles.icon} />}
 					style={styles.chatBox}
-					actions={[<Search style={{width: "260px", maxWidth: "150%"}}
+					actions={[<Search style={{width: "260px", maxWidth: "150%", marginLeft: '5px'}}
 							allowClear
 							placeholder="Leave your message..."
 							onSearch={(value) => this.handleSend(value)}
 							enterButton={<SendOutlined />}
 							value={this.state.userInput}
-							onChange={this.onChangeInput}/>, <Button style={{float: "right"}} shape="round" type="primary" onClick={this.handleMenuClick}>Menu</Button>]}>
+							onChange={this.onChangeInput}/>, <Button style={{float: "right", marginRight: '5px'}} shape="round" type="primary" onClick={this.handleMenuClick}>Menu</Button>]}>
 					<div style={styles.chatDiv} className = "chatbot">
 						{this.renderMessages(this.state.messages)}
 						<div ref={(el) => {this.messageEnd = el}}

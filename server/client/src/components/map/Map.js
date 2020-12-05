@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import GoogleMapReact from 'google-map-react'
+import GoogleMapReact, { fitBounds } from 'google-map-react'
 import { Input, List, Switch, Col, Row, Space, Tooltip } from 'antd'
 import { connect, useSelector } from 'react-redux'
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete'
@@ -9,13 +9,12 @@ import { fetchTestingCentre } from '../../redux/actions/mapActions'
 import CovidMarker from './CovidMarker'
 import { MedicineBoxFilled } from '@ant-design/icons'
 
-const { Search } = Input
-
 function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres, state, match: { params } }) {
   const [visits, setVisits] = useState({})
   const [currentGeoLocation, setCurrentGeoLocation] = useState({ lat: 49.246292, lng: -123.116226 })
   const [testingCentresState, setTestingCentresState] = useState({})
   const [switchState, setSwitchSate] = useState(false)
+  const [zoom, setZoom] = useState(14)
 
   useEffect(() => {
     fetchReportCases()
@@ -141,6 +140,8 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
           longitude: lng,
         })
         setCurrentGeoLocation({ lat: lat, lng: lng })
+        setZoom(13)
+        setZoom(14)
       })
       .catch((error) => {
         console.log('😱 Error: ', error)
@@ -183,7 +184,7 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
         <Col span={2}></Col>
         <Col span={20}>
           <Input
-            placeholder="input search text"
+            placeholder="Search for a place..."
             onChange={handleInput}
             disabled={!ready}
             value={value}
@@ -193,8 +194,7 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
           />
           {status === 'OK' && <ul>{renderSuggestions()}</ul>}
         </Col>
-        <Col span={2}>
-        </Col>
+        <Col span={2}></Col>
       </Row>
       <Row className="ignore-onclickoutside">
         <Col span={2}></Col>
@@ -203,6 +203,7 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
             defaultCenter={currentGeoLocation}
             center={currentGeoLocation}
             defaultZoom={14}
+            zoom={zoom}
             yesIWantToUseGoogleMapApiInternals
             onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
           >
@@ -219,7 +220,7 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
               )
             })}
 
-            {selectedPlace && (
+            {selectedPlace.place && (
               <CovidMarker
                 lat={selectedPlace.latitude}
                 lng={selectedPlace.longitude}
@@ -246,9 +247,13 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
           </GoogleMapReact>
         </Col>
         <Col span={2}>
-        <div style={{ fontSize: 'small', marginLeft: '5px', marginTop: '2px' }}>
+          <div style={{ fontSize: 'small', marginLeft: '5px', marginTop: '2px' }}>
             <Tooltip placement="topLeft" title="Testing Center">
-              <Switch checkedChildren={<MedicineBoxFilled />} unCheckedChildren={<MedicineBoxFilled />} onChange={handleSwitch} />
+              <Switch
+                checkedChildren={<MedicineBoxFilled />}
+                unCheckedChildren={<MedicineBoxFilled />}
+                onChange={handleSwitch}
+              />
             </Tooltip>
           </div>
         </Col>

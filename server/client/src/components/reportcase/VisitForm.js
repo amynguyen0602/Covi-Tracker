@@ -112,9 +112,10 @@ const VisitForm = ({ addVisit, getVisits, removeVisit, defaultData }) => {
   const ref = useOnclickOutside(() => {
     // When user clicks outside of the component, we can dismiss
     // the searched suggestions by calling this method
+    defaultData
+      ? setValue(defaultData ? defaultData.place : value)
+      : setValue(selectedPlace ? selectedPlace : '', false)
     clearSuggestions()
-    setSelectedPlace(selectedPlace ? selectedPlace : '')
-    defaultData ? setValue(defaultData ? defaultData.place : value) : setValue(selectedPlace ? selectedPlace : '')
   })
 
   const renderSuggestions = () =>

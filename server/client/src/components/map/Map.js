@@ -153,8 +153,6 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
     // When user clicks outside of the component, we can dismiss
     // the searched suggestions by calling this method
     clearSuggestions()
-    setSelectedPlace(selectedPlace ? selectedPlace : '')
-    setValue(selectedPlace ? selectedPlace.place : '')
   })
 
   const renderSuggestions = () =>
@@ -184,7 +182,7 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
         <Col span={2}></Col>
         <Col span={20}>
           <Input
-            placeholder="Search for a place..."
+            placeholder="Search for a place"
             onChange={handleInput}
             disabled={!ready}
             value={value}
@@ -196,7 +194,7 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
         </Col>
         <Col span={2}></Col>
       </Row>
-      <Row className="ignore-onclickoutside">
+      <Row>
         <Col span={2}></Col>
         <Col span={20} style={{ height: '80vh' }}>
           <GoogleMapReact

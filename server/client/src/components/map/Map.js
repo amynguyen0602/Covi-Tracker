@@ -60,6 +60,7 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
     }
   }, [testingCentres])
 
+  // get current location
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -183,60 +184,6 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
   // found better documentation
   // https://github.com/google-map-react/google-map-react/blob/master/API.md
   return (
-    // <div style={{ width: '80vw', margin: '0px auto' }}>
-    //   <div ref={ref}>
-    //     <Search
-    //       placeholder="input search text"
-    //       onSearch={handleSearch}
-    //       onChange={handleInput}
-    //       disabled={!ready}
-    //       value={value}
-    //       enterButton
-    //       size="large"
-    //       style={{ marginBottom: '20px' }}
-    //     />
-    //     <Switch checkedChildren="Testing Centre" unCheckedChildren="Testing Centre" />
-    //     {status === 'OK' && <ul>{renderSuggestions()}</ul>}
-    //   </div>
-    //   <div style={{ height: '80vh', width: '80vw' }} className="ignore-onclickoutside">
-    //     {/* 'calc(100vw - 100px)' */}
-    //     <GoogleMapReact
-    //       defaultCenter={currentGeoLocation}
-    //       center={currentGeoLocation}
-    //       defaultZoom={14}
-    //       onChildMouseEnter={handleChildMouseHover}
-    //       onChildMouseLeave={handleChildMouseHover}
-    //       yesIWantToUseGoogleMapApiInternals
-    //       onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
-    //     >
-    //       {Object.values(visits)?.map((visit) => {
-    //         return (
-    //           <CovidMarker
-    //             key={visit._id}
-    //             lat={visit.lat}
-    //             lng={visit.lng}
-    //             show={visit.show}
-    //             place={visit}
-    //             color="#fc3d03"
-    //             size="15px"
-    //           />
-    //         )
-    //       })}
-
-    //       {selectedPlace && (
-    //         <CovidMarker
-    //           lat={selectedPlace.latitude}
-    //           lng={selectedPlace.longitude}
-    //           show={selectedPlace.show}
-    //           place={selectedPlace}
-    //           color="#7134eb"
-    //           size="25px"
-    //         />
-    //       )}
-    //     </GoogleMapReact>
-    //   </div>
-    // </div>
-
     <div>
       <Row ref={ref}>
         <Col span={2}></Col>
@@ -258,7 +205,7 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
           </div>
         </Col>
       </Row>
-      <Row>
+      <Row className="ignore-onclickoutside">
         <Col span={2}></Col>
         <Col span={20} style={{ height: '80vh' }}>
           <GoogleMapReact
@@ -314,9 +261,6 @@ function Map({ fetchReportCases, fetchTestingCentre, reportCases, testingCentres
         </Col>
         <Col span={2}></Col>
       </Row>
-      {/* <div style={{ height: '80vh', width: '80vw' }} className="ignore-onclickoutside">
-         'calc(100vw - 100px)' #79d4ce
-      </div> */}
     </div>
   )
 }

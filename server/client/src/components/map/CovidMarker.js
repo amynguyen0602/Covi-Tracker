@@ -22,7 +22,6 @@ const CovidMarker = ({ place, color, size }) => {
     <Popover trigger="hover" content={<InfoWindow visit={place} />}>
       <div className = "marker" style={markerStyle} />
     </Popover>
-      {/* {show && <InfoWindow visit={place} />} */}
     </>
   )
 }

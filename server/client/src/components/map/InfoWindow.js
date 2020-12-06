@@ -2,10 +2,15 @@ import React from 'react'
 import moment from 'moment'
 import { Card } from 'antd'
 import { ExclamationCircleTwoTone, MedicineBoxTwoTone } from '@ant-design/icons'
+import { useEffect, useState } from 'react'
 
 // InfoWindow component
 const InfoWindow = (props) => {
-  const { visit } = props
+  const [visit, setVisit] = useState({})
+
+  useEffect(() => {
+    setVisit(props.visit)
+  }, [props.visit])
   const infoWindowStyle = {
     position: 'relative',
     bottom: 150,
@@ -19,7 +24,6 @@ const InfoWindow = (props) => {
   }
 
   return (
-    // <Card style={{ width: 300, zIndex: 5 }}>
     <>
       <div style={{ fontSize: 16}}>
         {visit.testingCentre && <MedicineBoxTwoTone style={{ marginRight: '5px' }} twoToneColor="#14c929" />}
@@ -39,7 +43,6 @@ const InfoWindow = (props) => {
         )}
       </div>
       </>
-    /* </Card> */
   )
 }
 
